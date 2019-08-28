@@ -1,16 +1,13 @@
 <template>
   <div id="app">
     <div id="nav">
-
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-
+      TRAVA LOGO
     </div>
     <!-- below nav bar -->
 
     <router-view/>
 
-    <footer>
+    <footer v-if="this.login == true">
       <footbar/>
     </footer>
   </div>
@@ -37,10 +34,11 @@ export default {
         this.login = false
         console.log('Dont Have Token');
       }
-    }
+    },
   },
   created(){
     this.loginCheck()
+
     }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="fb-root"></div>
+    <div></div>
 
     <Login/>
   </div>
