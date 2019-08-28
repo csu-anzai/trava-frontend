@@ -1,12 +1,49 @@
 <template>
   <div id="app">
     <div id="nav">
+
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
+
     </div>
+    <!-- below nav bar -->
+
     <router-view/>
+
+    <footer>
+      <footbar/>
+    </footer>
   </div>
 </template>
+<script>
+import footbar from '@/components/Footbar.vue'
+
+export default {
+  name:'App',
+  components:{
+    footbar,
+  },
+  data(){
+    return {
+      login : false,
+    }
+  },
+  methods:{
+    loginCheck(){
+      if (localStorage.getItem('token')) {
+        this.login = true
+        console.log('Have Token');
+      } else {
+        this.login = false
+        console.log('Dont Have Token');
+      }
+    }
+  },
+  created(){
+    this.loginCheck()
+    }
+}
+</script>
 
 <style lang="scss">
 #app {
@@ -26,4 +63,6 @@
     }
   }
 }
+
+
 </style>
