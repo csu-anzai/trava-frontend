@@ -30,7 +30,8 @@ export default {
       username : null,
       password : null,
       token : '',
-      login : false
+      login : false,
+      pass : "champ"
     }
   },
   methods: {
@@ -51,8 +52,8 @@ export default {
 
     },
     get() {
-      axios.get('http://127.0.0.1:3333/' + this.id ,{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token')} })
-        this.$router.push(`/${this.id}`)
+      axios.get('http://127.0.0.1:3333/user/' + this.id ,{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token')} })
+        this.$router.push(`/user/${this.id}`)
     },
   },
   created(){

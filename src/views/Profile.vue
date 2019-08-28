@@ -2,7 +2,9 @@
   <div >
 
     <h1>
-      {{user.username}}
+
+      <!-- UNFUNCTIONAL -->
+      
     </h1>
     <button @click="get">get</button>
 
@@ -16,18 +18,16 @@ export default {
   name: 'profile',
   data(){
     return {
-      user : {}
+      user : null
     }
   },
   methods: {
     async get(){
       let res = await axios.get('http://127.0.0.1:3333/' +localStorage.getItem('user'))
       this.user = res.data
-
     }
-  },
-  created(){
-    this.get()
   }
 }
 </script>
+
+      <!-- UNFUNCTIONAL -->

@@ -1,13 +1,12 @@
 <template>
     <div>
-
         <div>
         <input v-model="email" placeholder="Enter your email">
         <input v-model="username" placeholder="Enter your username">
         <input v-model="password" placeholder="Enter your password">
         <input v-model="cover" placeholder="Enter your cover">
         </div>
-        <button @click="submit" variant="success" href="/login">Submit</button>
+        <button @click="submit" variant="success" href="/login">submit</button>
 
     </div>
 </template>
@@ -18,7 +17,7 @@ import axios from 'axios'
 export default {
   name: 'Signup',
   components :{
-      //asdasdasfasfdasgdgadgdag
+
   },
   data() {
     return {

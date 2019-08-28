@@ -14,7 +14,7 @@ export default new Router({
       component: Home
     },
     {
-      path: '/:user',
+      path: '/user/:id',
       name: 'profile',
       component: function () { return import('./views/Profile.vue')}
     },

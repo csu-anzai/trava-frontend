@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div id="fb-root"></div>
 
     <Login/>
   </div>
@@ -8,6 +9,7 @@
 <script>
 
 import Login from '@/components/Login.vue'
+
 
 export default {
   name: 'home',

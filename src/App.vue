@@ -10,13 +10,18 @@
 
     <router-view/>
 
+    <footer>
+      <footbar/>
+    </footer>
   </div>
 </template>
 <script>
+import footbar from '@/components/Footbar.vue'
+
 export default {
   name:'App',
   components:{
-
+    footbar,
   },
   data(){
     return {
@@ -58,4 +63,6 @@ export default {
     }
   }
 }
+
+
 </style>
