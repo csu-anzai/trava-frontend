@@ -1,6 +1,7 @@
 <template>
   <div>
       <div class=box>
+
         
         <router-link to="/">
          <img src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/47.Explore-512.png" alt="explore">
@@ -17,6 +18,7 @@
         <router-link to="/profile/">
           <img src="https://static.thenounproject.com/png/629576-200.png" alt="profile">
         </router-link>
+
 
       </div>
   </div>
@@ -47,16 +49,16 @@ footer {
   background-color: #75E795;
 }
 
-img {
+#navbar {
   width: 40px;
   height: 40px;
   padding: 10px;
   margin-bottom: -6px
 }
-  img:hover {
+  #navbar:hover {
     background-color: rgb(179, 235, 195)
   }
-  img:active {
+    #navbar:active {
     background-color: rgb(65, 170, 95)
   }
 

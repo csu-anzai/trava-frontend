@@ -6,8 +6,6 @@
      <p><strong>{{item.title}}</strong></p>
      <p><strong>Budget: </strong>{{item.budget}}</p> 
      <img :src="item.cover" width="300px">
-     <p><strong>Created: </strong>{{item.created_at}}</p> 
-     <p>Posts: {{item.posts}}</p>
   </el-button>
 
 </div>
@@ -36,7 +34,7 @@ export default {
   },
   methods: {
     async getInfo(){
-      await axios.get('http://localhost:3333/journeys').then(response => {
+      await axios.get('http://127.0.0.1:3333/journeys').then(response => {
         this.array = response.data
 
         for(let i in this.array){
@@ -72,6 +70,9 @@ li {
 }
 a {
   color: #42b983;
+}
+.post {
+  margin: 10px
 }
 
 </style>
