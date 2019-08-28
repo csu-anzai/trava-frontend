@@ -31,7 +31,6 @@ export default {
       password : null,
       token : '',
       login : false,
-      pass : "champ"
     }
   },
   methods: {
@@ -40,7 +39,7 @@ export default {
       this.pass = this.password
 
       let response = await this.post()
-      this.token = response.data.access_token.token
+      this.token = response.data.token.token
 
       localStorage.setItem('token', this.token)
 
@@ -48,21 +47,21 @@ export default {
 
     },
     post() {
-      return axios.post('http://127.0.0.1:3333/login', { 'username': this.id, 'password': this.pass})
+      return axios.post('http://127.0.0.1:3333/login',).then(response => {
+         console.log(response)
+         
+       
 
-    },
+        })
+        
+    }, 
+    
     get() {
-      axios.get('http://127.0.0.1:3333/user/' + this.id ,{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token')} })
-        this.$router.push(`/user/${this.id}`)
+      axios.get('http://127.0.0.1:3333/profile/' + this.id ,{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token')} })
+        this.$router.push(`/`)
     },
   },
-  created(){
-      if (localStorage.getItem('token')) {
-        this.login = true
-      } else {
-        this.login = false
-      }
-    }
+
 }
 
 </script>
