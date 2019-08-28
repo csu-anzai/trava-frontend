@@ -48,9 +48,6 @@ export default {
     },
     async getPosts(user_id,id){
         return this.$router.push({path:`/${user_id}/journeys/${id}`})
-
-         })
-
     },
   },
 
