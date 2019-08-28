@@ -22,6 +22,11 @@ export default new Router({
       path: '/signup',
       name: 'signup',
       component: function () { return import('./components/Signup.vue')}
+    },
+    {
+      path: '/journeys',
+      name: 'journeys',
+      component: function () { return import('./components/Journeys.vue')}
     }
   ]
 })
