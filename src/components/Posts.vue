@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     async getInfo(){
-      axios.get(`http://localhost:3333/${this.$route.params.user_id}/journeys/${this.$route.params.id}`).then(response => {
+      axios.get(`http://127.0.0.1:3333/${this.$route.params.user_id}/journeys/${this.$route.params.id}`).then(response => {
          this.postInfo = response.data.posts
          return this.postInfo
        
