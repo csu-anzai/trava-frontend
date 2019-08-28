@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import Journey from './components/Journey.vue'
+import Posts from './components/Posts.vue'
+
 
 Vue.use(Router)
 
@@ -14,19 +17,22 @@ export default new Router({
       component: Home
     },
     {
-      path: '/user/:id',
-      name: 'profile',
-      component: function () { return import('./views/Profile.vue')}
-    },
-    {
-      path: '/signup',
-      name: 'signup',
-      component: function () { return import('./components/Signup.vue')}
-    },
-    {
+
       path: '/journeys',
-      name: 'journeys',
-      component: function () { return import('./components/Journeys.vue')}
+      name: 'journey',
+      component: Journey
+    },
+    {
+    path: '/:user_id/journeys/:id',
+    name: 'post',
+    component: Posts,
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: function () { return import('./views/About.vue')
+      }
+
     }
   ]
 })

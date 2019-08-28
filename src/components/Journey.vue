@@ -1,15 +1,15 @@
 <template>
   <div class="journey">
-
+  
 <div class="post" :key="index+10" v-for="(item, index) in array">
-  <el-button>
-     <p><strong>{{item.title}}</strong> </p> 
-      <p><strong> Date: </strong>{{item.date}}</p> 
-      <p><strong>Budget: </strong> {{item.budget}}</p> 
-      <img :key="index+10" v-for="(picture, index) in pictures" :src="picture.pictures" width="300px">
-      <p><strong>Created: </strong>{{item.created_at}}</p> 
-      <p><strong>Last Updated: </strong>{{item.updated_at}}</p>
-      </el-button>
+  <el-button @click="getPosts(item.user_id, item.id)">
+     <p><strong>{{item.title}}</strong></p>
+     <p><strong>Budget: </strong>{{item.budget}}</p> 
+     <img :src="item.cover" width="300px">
+     <p><strong>Created: </strong>{{item.created_at}}</p> 
+     <p>Posts: {{item.posts}}</p>
+  </el-button>
+
 </div>
 
   </div>
@@ -17,6 +17,8 @@
 
 <script>
 import { create } from 'domain';
+import { userInfo } from 'os';
+
 const axios = require('axios')
 
 export default {
@@ -30,37 +32,25 @@ export default {
       created_at: '',
       updated_at: '',
       posts: '',
-      id: '',
-      user_id: '',
-      pictures: '',
-      
     }
   },
   methods: {
     async getInfo(){
       await axios.get('http://localhost:3333/journeys').then(response => {
         this.array = response.data
-        for(let i = 0; i < this.array.length; i++){
-          let id = this.array[i].id
-          let user_id = this.array[i].user_id
-          return this.postImage(user_id,id)
+
+        for(let i in this.array){
+         let user_id = this.array[i].user_id
+         let id = this.array[i].id
+        return this.array
         }
-         })
+        })
     },
-    async postImage(user_id, id){
-      await axios.get(`http://localhost:3333/${user_id}/journeys/${id}`).then(response => {
-        this.pictures = response.data.posts
-        for(let i = 0; i < this.pictures.length; i++){
-          let photo = this.pictures[i].pictures
-          return photo
-        }
-        //  let journeyInfo = response.data
-        //    this.title = journeyInfo.title
-        //      this.date= journeyInfo.date
-        //      this.budget= journeyInfo.budget
-        //      this.created_at= journeyInfo.created_at
-        //      this.updated_at= journeyInfo.updated_at
+    async getPosts(user_id,id){
+        return this.$router.push({path:`/${user_id}/journeys/${id}`})
+
          })
+
     },
   },
 
@@ -70,7 +60,7 @@ export default {
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped lang="scss">
 h3 {
   margin: 40px 0 0;
@@ -86,14 +76,5 @@ li {
 a {
   color: #42b983;
 }
-button {
-  width: 80%;
-  margin: 3px;
-  display: flex;
-  justify-content: space-evenly
-}
-.post {
-  display: flex;
-  justify-content:center
-}
+
 </style>
