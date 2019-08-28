@@ -21,12 +21,6 @@ export default new Router({
     name: 'post',
     component: Posts,
     },
-    {
-      path: '/about',
-      name: 'about',
-      component: function () { return import('./views/About.vue')
-      }
-
-    }
+  
   ]
 })
