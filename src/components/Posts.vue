@@ -1,11 +1,12 @@
 <template>
   <div class="posts">
 <div class="post" :key="index+10" v-for="(item, index) in postInfo">
-     <h3>{{item.day}}</h3><span>{{dateFormat(item.date)}}</span>
-     
-     <p>Budget: <strong>{{item.budget}}</strong></p>
-     <p><strong>Description: </strong>{{item.description}}</p> 
+  <b-card :title="item.day" style="max-width: 30rem;" class="mb-2" id="card">
+     <span>{{dateFormat(item.date)}}</span>
+     <b-card-text><strong>Budget: </strong>{{item.budget}}</b-card-text>
+     <b-card-text><strong>Description: </strong>{{item.description}}</b-card-text> 
      <img :src="item.pictures" width="300px">
+  </b-card>
 </div>
 
   </div>
@@ -62,5 +63,11 @@ li {
 a {
   color: #42b983;
 }
+.post{
+display: flex;
+justify-content: center;
+margin: 10px
+}
+
 
 </style>

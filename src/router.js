@@ -14,11 +14,6 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
-    },
-    {
-      path: '/journeys',
-      name: 'journey',
       component: Journey
     },
     {
