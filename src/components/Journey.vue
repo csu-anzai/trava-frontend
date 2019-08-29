@@ -10,29 +10,28 @@
   <div class="box">
     <div class="box-part" id="bp-left">
       <div class="partition" id="partition-register">
-        <div class="partition-title">CREATE ACCOUNT</div>
+        <div class="partition-title">Create a journey</div>
         <div class="partition-form">
-          <form autocomplete="false">
-
-            <div class="autocomplete-fix">
-              <input type="password">
-            </div>
-
-            <input id="n-email" type="text" placeholder="Email">
-            <input id="n-username" type="text" placeholder="Username">
-            <input id="n-password2" type="password" placeholder="Password">
-          </form>
+          <el-form ref="journeyForm" :model="journeyForm" autocomplete="false">
+            <el-form-item :style="{'display':'flex','justify-content':'center'}">
+            <el-input v-model="journeyForm.title" placeholder="Journey Title"></el-input>
+            </el-form-item>
+            <el-form-item :style="{'display':'flex','justify-content':'center'}">
+            <el-date-picker v-model="journeyForm.date" placeholder="Journey Date"></el-date-picker>
+            </el-form-item>
+            <el-form-item :style="{'display':'flex','justify-content':'center'}">
+            <el-input v-model="journeyForm.budget" placeholder="Budget"></el-input>
+            </el-form-item>
+          </el-form>
+          
 
           <div style="margin-top: 42px">
           </div>
 
           <div class="button-set">
-            <button id="goto-signin-btn">Sign In</button>
-            <button id="register-btn">Register</button>
+            <el-button class="createButton">Create Journey</el-button>
           </div>
 
-          <button class="large-btn github-btn">connect with <span>github</span></button>
-          <button class="large-btn facebook-btn">connect with <span>facebook</span></button>
         </div>
       </div>
     </div>
@@ -83,10 +82,16 @@ const MODAL_WIDTH = 656
 export default {
   name: 'addAJourney',
   components: {
-    fab
+    fab,
+
   },
   data () {
     return {
+      journeyForm: {
+        title: '',
+        date: '',
+        budget:'',
+      },
       array : null,
       modalWidth: MODAL_WIDTH,
       bgColor: '#369DD7',
@@ -225,7 +230,6 @@ $facebook_color: #3880FF;
       box-sizing: border-box;
     }
   }
-  input[type=password],
   input[type=text] {
     display: block;
     box-sizing: border-box;
@@ -241,8 +245,9 @@ $facebook_color: #3880FF;
     outline: none;
   }
   button {
-    background: white;
-    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    border-radius: 20px;
     box-sizing: border-box;
     padding: 10px;
     letter-spacing: 1px;
@@ -250,16 +255,17 @@ $facebook_color: #3880FF;
     font-weight: 400;
     min-width: 140px;
     margin-top: 8px;
-    color: #8b8c8d;
+    color: #369DD7;
     cursor: pointer;
-    border: 1px solid #DDDEDF;
+    border: 1px solid #369DD7;
     text-transform: uppercase;
     transition: 0.1s all;
     font-size: 10px;
     outline: none;
     &:hover {
-      border-color: mix(#DDDEDF, black, 90%);
-      color: mix(#8b8c8d, black, 80%);
+      color:white;
+      background: #369DD7;
+      border-color: #369DD7;
     }
   }
   .large-btn {
@@ -275,10 +281,7 @@ $facebook_color: #3880FF;
   .button-set {
     margin-bottom: 8px;
   }
-  #register-btn,
-  #signin-btn {
-    margin-left: 8px;
-  }
+  
   .facebook-btn {
     border-color: $facebook_color;
     color: $facebook_color;
@@ -315,5 +318,10 @@ $facebook_color: #3880FF;
   opacity: 0;
   transform: translateY(24px);
 }
+.createButton {
+  width:100%;
+  display: flex;
+  justify-content: center;
 
+}
 </style>
