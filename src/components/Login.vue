@@ -37,7 +37,9 @@ export default {
     async put() {
 
       let response = await this.post()
-      this.token = response.data.token
+      this.token = response.data.token.token
+
+      console.log(response);
 
       localStorage.setItem('token', this.token)
 
@@ -46,12 +48,17 @@ export default {
     },
     post() {
       return axios.post('http://127.0.0.1:3333/login',{'username':this.username,'password':this.password})
-        
+
     }, 
     
     get() {
-      axios.get('http://127.0.0.1:3333/profile/' + this.username ,{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token')} })
-        this.$router.push(`/profile/${this.username}`)
+      axios.get('http://127.0.0.1:3333/profile/user' ,{ 
+        headers: { 
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        } 
+      })
+      this.$router.push(`/profile/${this.username}`)
+      location.reload()
     },
   },
 

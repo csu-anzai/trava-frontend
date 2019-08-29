@@ -24,8 +24,12 @@ export default {
   },
   methods: {
     async get(){
-      axios.get(`http://127.0.0.1:3333/profile/${this.$route}`).then(response => {
-        console.log(response);
+
+      axios.get('http://127.0.0.1:3333/profile/user' ,{ 
+        headers: { 
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }}).then(response => {
+        console.log(response.data)
       })
       
     }
