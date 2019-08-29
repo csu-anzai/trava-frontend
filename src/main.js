@@ -9,6 +9,30 @@ import moment from 'moment'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faJs, faVuejs } from '@fortawesome/free-brands-svg-icons'
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import VueFab from 'vue-float-action-button'
+import VModal from 'vue-js-modal'
+ 
+Vue.use(VModal)
+ 
+Vue.use(VueFab, /* {
+  ----------------------
+  // opitons Optional iconfont icon or MaterialIcons
+  iconType: 'MaterialDesign'
+  // iconType: 'iconfont'
+} */)
+
+library.add(faSpinner,fab,faPlus);
+
+library.add(faUserSecret, faJs, faVuejs)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.use(BootstrapVue)
 
