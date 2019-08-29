@@ -3,7 +3,7 @@
 
     <h1>
 
-      <!-- UNFUNCTIONAL -->
+      Your profile
       
     </h1>
     <button @click="get">get</button>
@@ -22,12 +22,10 @@ export default {
     }
   },
   methods: {
-    async get(){
-      let res = await axios.get('http://127.0.0.1:3333/' +localStorage.getItem('user'))
-      this.user = res.data
+    get(){
+      axios.get(`http://127.0.0.1:3333/profile/$`)
+      
     }
   }
 }
 </script>
-
-      <!-- UNFUNCTIONAL -->
