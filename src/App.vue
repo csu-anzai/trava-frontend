@@ -2,8 +2,10 @@
   <div id="app">
     <div id="nav">
       TRAVA LOGO
+      <a v-if="this.login == false" href="/login">Login</a>
+      <a v-if="this.login == true" @click="logout" href="/">Logout</a>
     </div>
-    <!-- below nav bar -->
+
 
     <router-view/>
 
@@ -35,6 +37,9 @@ export default {
         console.log('Dont Have Token');
       }
     },
+    logout(){
+      localStorage.removeItem('token');
+    }
   },
   created(){
     this.loginCheck()

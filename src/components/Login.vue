@@ -35,11 +35,9 @@ export default {
   },
   methods: {
     async put() {
-      this.id = this.username
-      this.pass = this.password
 
       let response = await this.post()
-      this.token = response.data.token.token
+      this.token = response.data.token
 
       localStorage.setItem('token', this.token)
 
@@ -47,18 +45,13 @@ export default {
 
     },
     post() {
-      return axios.post('http://127.0.0.1:3333/login',).then(response => {
-         console.log(response)
-         
-       
-
-        })
+      return axios.post('http://127.0.0.1:3333/login',{'username':this.username,'password':this.password})
         
     }, 
     
     get() {
-      axios.get('http://127.0.0.1:3333/profile/' + this.id ,{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token')} })
-        this.$router.push(`/`)
+      axios.get('http://127.0.0.1:3333/profile/' + this.username ,{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token')} })
+        this.$router.push(`/profile/${this.username}`)
     },
   },
 
