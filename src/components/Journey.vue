@@ -5,23 +5,24 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <div class="addJourney">
 </div>
-<div>
-<fab
+
+<div class="post" :key="index+10" v-for="(item, index) in array">
+  <fab
    :position="position"
    :bg-color="bgColor"
    :actions="fabActions"
-   @Add="addJourney"
+   @Add="addJourney(item.user_id)"
    @Edit="editJourney"
 ></fab>
-  </div>
-<div class="post" :key="index+10" v-for="(item, index) in array">
   <el-button @click="getPosts(item.user_id, item.id)">
      <p><strong>{{item.title}}</strong></p>
      <p><strong>Budget: </strong>{{item.budget}}</p> 
      <img :src="item.cover" width="300px">
   </el-button>
+  
 
 </div>
+
 
   </div>
 </template>
