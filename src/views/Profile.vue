@@ -18,12 +18,19 @@ export default {
   name: 'profile',
   data(){
     return {
-      user : null
+      user : null,
+      info : null
     }
   },
   methods: {
-    get(){
-      axios.get(`http://127.0.0.1:3333/profile/$`)
+    async get(){
+
+      axios.get('http://127.0.0.1:3333/profile/user' ,{ 
+        headers: { 
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }}).then(response => {
+        console.log(response.data)
+      })
       
     }
   }
