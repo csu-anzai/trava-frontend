@@ -6,24 +6,25 @@
     <div class="addJourney">
 </div>
 <div>
-  <modal name="form" transition="pop-out" :width="modalWidth" :height="400">
+  
+  <modal name="form" transition="pop-out" :width="modalWidth" :adaptive=true height="auto">
   <div class="box">
     <div class="box-part" id="bp-left">
       <div class="partition" id="partition-register">
         <div class="partition-title">Create a journey</div>
         <div class="partition-form">
           <el-form ref="journeyForm" :model="journeyForm" autocomplete="false">
-            <h1></h1>
             <el-form-item :style="{'display':'flex','justify-content':'center'}">
             <el-input v-model="journeyForm.title" placeholder="Journey Title"></el-input>
             </el-form-item>
             <el-form-item :style="{'display':'flex','justify-content':'center'}">
-            <el-date-picker v-model="journeyForm.date" placeholder="Journey Date"></el-date-picker>
-            </el-form-item>
-            <el-form-item :style="{'display':'flex','justify-content':'center'}">
             <el-input v-model="journeyForm.budget" placeholder="Budget"></el-input>
             </el-form-item>
-             <div class="button-set">
+     <input type="file" class="form-control" v-on:change="upload($event.target.files)" accept="image/*" />
+     <progress id="progressBar" value="0" max="100" style="width:250px;"></progress>
+     <h2 id="status"></h2>
+            <p id="loadedtotal"></p>
+        <div class="button-set">
             <el-button @click="addJourney" class="createButton">Create Journey</el-button>
           </div>
           </el-form>
@@ -51,6 +52,8 @@
    :actions="fabActions"
    @Add="formAccess"
    @Edit="editJourney"
+    v-bind:files="file"
+   :onaddfile="upload"
 ></fab>
 </div>
 
@@ -72,28 +75,44 @@
 <script>
 import { create } from 'domain';
 import { userInfo } from 'os';
-import fontawesome from "@fortawesome/fontawesome";
-import brands from "@fortawesome/fontawesome-free-brands";
-import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
 import fab from 'vue-fab'
-
-
+import vueFilePond, { setOptions } from 'vue-filepond';
+import 'filepond/dist/filepond.min.css';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview'; 
+import { send } from 'q';
+const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 const axios = require('axios')
 const MODAL_WIDTH = 656
+// import cloudinary from '../cloudinary.js'
+
+
+
 
 export default {
   name: 'addAJourney',
   components: {
     fab,
+    FilePond
 
   },
+  
   data () {
     return {
+      file: [], 
+      cloudinary: {
+       uploadPreset: 'intkqwzq',
+       apiKey: '585369829753931',
+       cloudName: 'duou0ej55'
+     }, 
+     thumb: '',
+  thumbs: '',
       journeyForm: {
         title: '',
-        date: '',
         budget:'',
         user_id: null,
+        cover:[]
       },
       id: null,
       array : null,
@@ -112,16 +131,38 @@ export default {
           ]
     }
   },
+      
   created () {
     this.modalWidth = window.innerWidth < MODAL_WIDTH
       ? MODAL_WIDTH / 2
       : MODAL_WIDTH
   },
-  methods: {
-    
-    show () {
-    
+  computed: {
+    clUrl() {
+        return `https://api.cloudinary.com/v1_1/${this.cloudinary.cloudName}/upload`  
+        },
   },
+          
+  methods: {
+   upload(file) {
+        const formData = new FormData();
+
+      
+      formData.append('file', file[0]);
+      formData.append('upload_preset', this.cloudinary.uploadPreset);
+      formData.append('tags', 'gs-vue,gs-vue-uploaded');
+      
+
+      // For debug purpose only
+      // Inspects the content of formData
+      for(var pair of formData.entries()) {
+        console.log(pair[0]+', '+pair[1]);
+      }
+      console.log(file)
+      axios.post(this.clUrl, formData).then(res => {
+        this.thumbs = res.data.secure_url
+      })
+    },
   hide () {
     this.$modal.hide('hello-world');
   },
@@ -143,26 +184,40 @@ export default {
       this.$modal.show('form');      
       },
       async addJourney(){
-      await axios.post(`http://127.0.0.1:3333/${this.journeyForm.guser_id}/journeys`, {
+       let user_id = await axios.get(`http://127.0.0.1:3333/profile/user`, {
         headers: {
-          Authorization: 'Bearer' + localStorage.getItem('token')
-        }}).then(response => {
-          this.id = response.data.user_id
-          this.id = this.journeyForm.user_id
-          console.log(response)
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+         }
         })
-
+       let userId = user_id.data.id
+       this.journeyForm.user_id = userId
+       await axios.post(`http://127.0.0.1:3333/${userId}/journeys`, {'title':this.journeyForm.title, 'budget':this.journeyForm.budget, 'cover':this.thumbs, 'user_id':userId}).then(response => {
+         console.log('created')
+       })
       },
       async editJourney(){
           alert('Clicked on alert icon');
       },
+      async getId(){
+        let user_id = await axios.get(`http://127.0.0.1:3333/profile/user`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+         }
+        })
+        let userId = user_id.data.id
+       this.journeyForm.user_id = userId
+      }, 
   },
+  
+  
   
 
     async mounted() {
     this.getInfo()
+    this.getId()
   },
   }
+
 </script>
 
 
@@ -191,7 +246,6 @@ $facebook_color: #3880FF;
   background: white;
   overflow: hidden;
   width: 656px;
-  height: 400px;
   border-radius: 2px;
   box-sizing: border-box;
   box-shadow: 0 0 40px black;
@@ -202,7 +256,6 @@ $facebook_color: #3880FF;
     position: relative;
     vertical-align: top;
     box-sizing: border-box;
-    height: 100%;
     width: 50%;
     &#bp-right {
       background: url("/static/panorama.jpg") no-repeat top left;

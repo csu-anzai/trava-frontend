@@ -9,7 +9,6 @@
     <p><strong>Email: </strong>{{info.email}}</p>
     <p><strong>Created: </strong>{{info.created_at}}</p>
     <p><strong>Last Updated: </strong>{{info.updated_at}}</p>
-    <p>{{info}}</p>
 
   </div>
 </template>
