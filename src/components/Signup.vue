@@ -3,7 +3,7 @@
         <div>
         <input v-model="email" placeholder="Enter your email">
         <input v-model="username" placeholder="Enter your username">
-        <input v-model="password" placeholder="Enter your password">
+        <input v-model="password" type="password" placeholder="Enter your password">
         </div>
         <button @click="submit" v-on:enter="submit" href="/login">submit</button>
 
