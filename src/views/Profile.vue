@@ -2,11 +2,10 @@
   <div >
 
     <h1>
-
       Your profile
-      
+      <br>
     </h1>
-    <button @click="get">get</button>
+    <p>{{info}}</p>
 
   </div>
 </template>
@@ -28,11 +27,17 @@ export default {
       axios.get('http://127.0.0.1:3333/profile/user' ,{ 
         headers: { 
           Authorization: 'Bearer ' + localStorage.getItem('token')
-        }}).then(response => {
+        }
+      }).then(response => {
         this.info = response.data
-      })
+        })
+
+
       
     }
+  },
+  created(){
+    this.get()
   }
 }
 </script>
