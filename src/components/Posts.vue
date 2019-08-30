@@ -31,7 +31,7 @@ export default {
         day: '',
 
       },
-      array: null,
+      postInfo: null,
     }
   },
   methods: {
