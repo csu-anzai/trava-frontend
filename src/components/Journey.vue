@@ -13,6 +13,7 @@
         <div class="partition-title">Create a journey</div>
         <div class="partition-form">
           <el-form ref="journeyForm" :model="journeyForm" autocomplete="false">
+            <h1></h1>
             <el-form-item :style="{'display':'flex','justify-content':'center'}">
             <el-input v-model="journeyForm.title" placeholder="Journey Title"></el-input>
             </el-form-item>
@@ -22,15 +23,16 @@
             <el-form-item :style="{'display':'flex','justify-content':'center'}">
             <el-input v-model="journeyForm.budget" placeholder="Budget"></el-input>
             </el-form-item>
+             <div class="button-set">
+            <el-button @click="addJourney" class="createButton">Create Journey</el-button>
+          </div>
           </el-form>
           
 
           <div style="margin-top: 42px">
           </div>
 
-          <div class="button-set">
-            <el-button class="createButton">Create Journey</el-button>
-          </div>
+         
 
         </div>
       </div>
@@ -47,7 +49,7 @@
    :position="position"
    :bg-color="bgColor"
    :actions="fabActions"
-   @Add="addJourney()"
+   @Add="formAccess"
    @Edit="editJourney"
 ></fab>
 </div>
@@ -91,7 +93,9 @@ export default {
         title: '',
         date: '',
         budget:'',
+        user_id: null,
       },
+      id: null,
       array : null,
       modalWidth: MODAL_WIDTH,
       bgColor: '#369DD7',
@@ -135,8 +139,19 @@ export default {
     async getPosts(user_id,id){
         return this.$router.push({path:`/${user_id}/journeys/${id}`})
     },
-    async addJourney(user_id){
+      formAccess(){
       this.$modal.show('form');      
+      },
+      async addJourney(){
+      await axios.post(`http://127.0.0.1:3333/${this.journeyForm.user_id}/journeys`, {
+        headers: {
+          Authorization: 'Bearer' + localStorage.getItem('token')
+        }}).then(response => {
+          this.id = response.data.user_id
+          this.id = this.journeyForm.user_id
+          console.log(response)
+        })
+
       },
       async editJourney(){
           alert('Clicked on alert icon');

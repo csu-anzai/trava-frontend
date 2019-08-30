@@ -6,7 +6,10 @@
       Your profile
       
     </h1>
-    <button @click="get">get</button>
+    <p><strong>Username: </strong>{{info.username}}</p>
+    <p><strong>Email: </strong>{{info.email}}</p>
+    <p><strong>Created: </strong>{{info.created_at}}</p>
+    <p><strong>Last Updated: </strong>{{info.updated_at}}</p>
 
   </div>
 </template>
@@ -18,7 +21,6 @@ export default {
   name: 'profile',
   data(){
     return {
-      user : null,
       info : null
     }
   },
@@ -32,7 +34,10 @@ export default {
         this.info = response.data
       })
       
-    }
+    },
+  },
+  created () {
+    this.get()
   }
 }
 </script>
