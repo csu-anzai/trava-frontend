@@ -91,7 +91,6 @@ export default {
     getPosts(user_id,id){
       this.$router.push({path:`/${user_id}/journeys/${id}`})
     },
-
   },
   created(){
     this.get()
