@@ -5,8 +5,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <div class="addJourney">
 </div>
-<div>
-  
+
+<div v-if="this.login == true">
   <modal name="form" transition="pop-out" :width="modalWidth" :adaptive=true height="auto">
   <div class="box">
     <div class="box-part" id="bp-left">
@@ -43,9 +43,11 @@
       </div>
     </div>
   </div>
-</modal>
+  </modal>
+
 </div>
-<div>
+
+<div v-if="this.login == true">
    <fab
    :position="position"
    :bg-color="bgColor"
@@ -85,7 +87,7 @@ import { send } from 'q';
 const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 const axios = require('axios')
 const MODAL_WIDTH = 656
-// import cloudinary from '../cloudinary.js'
+
 
 
 
@@ -100,6 +102,7 @@ export default {
   
   data () {
     return {
+      login : false,
       file: [], 
       cloudinary: {
        uploadPreset: 'intkqwzq',
@@ -153,8 +156,7 @@ export default {
       formData.append('tags', 'gs-vue,gs-vue-uploaded');
       
 
-      // For debug purpose only
-      // Inspects the content of formData
+
       for(var pair of formData.entries()) {
         console.log(pair[0]+', '+pair[1]);
       }
@@ -207,15 +209,23 @@ export default {
         let userId = user_id.data.id
        this.journeyForm.user_id = userId
       }, 
+      loginCheck(){
+      if (localStorage.getItem('token')) {
+        this.login = true
+        console.log('Have Token');
+      } else {
+        this.login = false
+        console.log('Dont Have Token');
+      }
+    }
   },
-  
-  
-  
-
     async mounted() {
     this.getInfo()
     this.getId()
   },
+  created(){
+    this.loginCheck()
+  }
   }
 
 </script>
