@@ -1,6 +1,6 @@
 <template>
-  <div>
 
+  <div>
     <div>
       <div id="Cover">
         {{info.cover}}
