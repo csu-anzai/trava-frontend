@@ -21,9 +21,7 @@
             <el-input v-model="journeyForm.budget" placeholder="Budget"></el-input>
             </el-form-item>
      <input type="file" class="form-control" v-on:change="upload($event.target.files)" accept="image/*" />
-     <progress id="progressBar" value="0" max="100" style="width:250px;"></progress>
-     <h2 id="status"></h2>
-            <p id="loadedtotal"></p>
+     
         <div class="button-set">
             <el-button @click="addJourney" class="createButton">Create Journey</el-button>
           </div>
@@ -192,7 +190,8 @@ export default {
        let userId = user_id.data.id
        this.journeyForm.user_id = userId
        await axios.post(`http://127.0.0.1:3333/${userId}/journeys`, {'title':this.journeyForm.title, 'budget':this.journeyForm.budget, 'cover':this.thumbs, 'user_id':userId}).then(response => {
-         console.log('created')
+         return alert('Journey Created'),location.reload()
+         
        })
       },
       async editJourney(){
@@ -390,6 +389,8 @@ $facebook_color: #3880FF;
   width:100%;
   display: flex;
   justify-content: center;
-
+}
+img {
+  border-radius: 10px
 }
 </style>

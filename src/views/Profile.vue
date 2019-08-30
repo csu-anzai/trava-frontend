@@ -31,7 +31,7 @@
           </p>
 
           <div id="bio">
-            Hellow i'm an ADMIN
+            Hello i'm an ADMIN
           </div>
         </div>
       
@@ -41,7 +41,7 @@
     <h4>{{info.username}}'s Journeys</h4>
 
     <div style="margin : 5px" :key="index" v-for="(item, index) in info.journeys">
-      <el-button @click="getPosts(item.user_id, item.id)">
+      <el-button class="butt" @click="getPosts(item.user_id, item.id)">
         <div class="card-trip">
 
           <img :src="item.cover" />
@@ -99,7 +99,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
 
 #info {
   display: flex;
@@ -146,6 +146,16 @@ export default {
   width: 110px;
   right: 0px;
 
+}
+button {
+  padding: 0;
+border: none;
+background: none;
+    &:hover {
+      color:#369DD7;
+      background: #369DD7;
+      border-color: #369DD7;
+    }
 }
 
 .card-trip {
