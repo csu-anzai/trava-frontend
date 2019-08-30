@@ -19,6 +19,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import VueFab from 'vue-float-action-button'
 import VModal from 'vue-js-modal'
 import Datetime from 'vue-datetime'
+
 // You need a specific loader for CSS files
 import 'vue-datetime/dist/vue-datetime.css'
 
