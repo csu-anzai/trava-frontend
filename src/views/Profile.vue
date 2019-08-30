@@ -2,14 +2,14 @@
   <div >
 
     <h1>
-
       Your profile
-      
+      <br>
     </h1>
     <p><strong>Username: </strong>{{info.username}}</p>
     <p><strong>Email: </strong>{{info.email}}</p>
     <p><strong>Created: </strong>{{info.created_at}}</p>
     <p><strong>Last Updated: </strong>{{info.updated_at}}</p>
+    <p>{{info}}</p>
 
   </div>
 </template>
@@ -30,13 +30,16 @@ export default {
       axios.get('http://127.0.0.1:3333/profile/user' ,{ 
         headers: { 
           Authorization: 'Bearer ' + localStorage.getItem('token')
-        }}).then(response => {
+        }
+      }).then(response => {
         this.info = response.data
-      })
+        })
+
+
       
-    },
+    }
   },
-  created () {
+  created(){
     this.get()
   }
 }

@@ -143,7 +143,7 @@ export default {
       this.$modal.show('form');      
       },
       async addJourney(){
-      await axios.post(`http://127.0.0.1:3333/${this.journeyForm.user_id}/journeys`, {
+      await axios.post(`http://127.0.0.1:3333/${this.journeyForm.guser_id}/journeys`, {
         headers: {
           Authorization: 'Bearer' + localStorage.getItem('token')
         }}).then(response => {

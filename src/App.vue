@@ -14,6 +14,7 @@
     </footer>
   </div>
 </template>
+
 <script>
 import footbar from '@/components/Footbar.vue'
 
