@@ -49,11 +49,10 @@ export default {
 
       let response = await this.post()
       this.token = response.data.token.token
-
-      console.log(response);
+      this.id = response.data.user.id
 
       localStorage.setItem('token', this.token)
-
+      localStorage.setItem('id', this.id)
       this.get()
 
     },

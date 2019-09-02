@@ -57,6 +57,7 @@
   </div> 
   <!-- === Modal Ends === -->
 
+
 <div class="post" :key="index" v-for="(item, index) in array">
 
     </div>
@@ -67,8 +68,9 @@
       :bg-color="bgColor"
       :actions="fabActions"
       @Add="formAccess"
-      @Delete="editJourney"
-      @Edit="editJourney"
+      @Edit="profile"
+      @Search="home"
+
         v-bind:files="file"
       :onaddfile="upload" 
     ></fab>
@@ -131,14 +133,15 @@ export default {
                   name: 'Add',
                   icon: 'add'
               },
-               {
-                  name: 'Delete',
-                  icon: 'delete'
-              },  
-               {
-                  name: 'Edit',
-                  icon: 'edit'
-              },  
+              {
+                name: 'Edit',
+                icon: 'home'
+              },
+              {
+                name: 'Search',
+                icon: 'search'
+              }
+
           ]
     }
   },
@@ -193,6 +196,12 @@ export default {
         }
         })
     },
+    profile(){
+      this.$router.push('/profile/user')
+    },
+    home(){
+      this.$router.push('/')
+    },
     async getPosts(user_id,id){
         return this.$router.push({path:`/${user_id}/journeys/${id}`})
     },
@@ -211,9 +220,6 @@ export default {
          return alert('Journey Created'),location.reload()
          
        })
-      },
-      async editJourney(){
-          alert('Clicked on alert icon');
       },
       async getId(){
         let user_id = await axios.get(`/profile/user`, {

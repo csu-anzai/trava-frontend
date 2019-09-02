@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    
     <div id="nav" class="theme">
 
       <a v-if="this.login == false" href="/login">Login</a>
@@ -9,24 +10,23 @@
         <img src="https://res.cloudinary.com/champmar/image/upload/v1567141363/customLogo_uuyspo.png" style="width : 143px; height : 41px">
       </div>
 
+      <div class="search-wrapper">
+        <input type="text" v-model="search" placeholder="Try search for a beach..."/>
+      </div>
+      
+
     </div>
 
 
     <router-view/>
-
-    <footer v-if="this.login == true">
-      <footbar class="theme"/>
-    </footer>
   </div>
 </template>
 
 <script>
-import footbar from '@/components/Footbar.vue'
 
 export default {
   name:'App',
   components:{
-    footbar,
   },
   data(){
     return {
@@ -45,6 +45,7 @@ export default {
     },
     logout(){
       localStorage.removeItem('token');
+      localStorage.removeItem('id');
     },
     
   },
@@ -71,8 +72,7 @@ export default {
 
 #nav {
   display: flexbox;
-  padding: 30px;
-  height: 99px;
+  padding: 5px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   a {
     font-weight: bold;
@@ -83,6 +83,16 @@ export default {
   }
 }
 
+.search-wrapper {
+  position: relative;
+  margin: 5px;
+}
 
+.search-wrapper input {
+  border-radius: 50px;
+  border-color: white;
+  text-align: center;
+  width: 50%;
+}
 
 </style>
