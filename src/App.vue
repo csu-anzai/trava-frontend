@@ -8,12 +8,7 @@
 
       <div>
         <img src="https://res.cloudinary.com/champmar/image/upload/v1567141363/customLogo_uuyspo.png" style="width : 143px; height : 41px">
-      </div>
-
-      <div class="search-wrapper">
-        <input type="text" v-model="search" placeholder="Try search for a beach..."/>
-      </div>
-      
+      </div>      
 
     </div>
 
