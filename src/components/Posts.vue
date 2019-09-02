@@ -75,7 +75,7 @@
         allow-multiple="true"
         accepted-file-types="image/jpeg, image/png"
         v-bind:files="file"
-        server="https://0d10aaef.ap.ngrok.io/upload"
+        server="https://63ecca8f.ap.ngrok.io/upload"
         :onprocessfile="upload"
      />        
      <div class="button-set">
@@ -224,7 +224,7 @@ export default {
 
     },
     async findPost() {
-      axios.get(`http://127.0.0.1:3333/${this.$route.params.user_id}/journeys/${this.$route.params.id}/${this.postId}`).then(response => {
+      axios.get(`/${this.$route.params.user_id}/journeys/${this.$route.params.id}/${this.postId}`).then(response => {
         this.postId = response.data
         for(let i in this.postId){
          let id = this.postId[i].id

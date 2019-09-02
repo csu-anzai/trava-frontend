@@ -22,7 +22,7 @@
             allow-multiple="true"
             accepted-file-types="image/jpeg, image/png"
             v-bind:files="file"
-            server="https://92a4e89c.ap.ngrok.io/upload"
+            server="https://63ecca8f.ap.ngrok.io/upload"
             :onprocessfile="upload"
         />
     
@@ -34,6 +34,11 @@
 
               <div style="margin-top: 42px">
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+              </modal>
 
   <!-- === Modal Start === -->
   <div id="Modal">
@@ -115,6 +120,7 @@
       </div>
       <!-- <div class="empty"></div> -->
   </div>
+          </div>
    
 </template>
 
