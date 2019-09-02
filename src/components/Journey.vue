@@ -39,63 +39,7 @@
         </div>
       </div>
               </modal>
-
-  <!-- === Modal Start === -->
-  <div id="Modal">
-    <div v-if="this.login == true">
-      <modal name="form" transition="pop-out" :width="modalWidth" :adaptive=true height="auto">
-      <div class="box">
-        <div class="box-part" id="bp-left">
-          <div class="partition" id="partition-register">
-            <div class="partition-title">Create a journey</div>
-            <div class="partition-form">
-              <el-form ref="journeyForm" :model="journeyForm" autocomplete="false">
-                <el-form-item :style="{'display':'flex','justify-content':'center'}">
-                <el-input v-model="journeyForm.title" placeholder="Journey Title"></el-input>
-                </el-form-item>
-                <el-form-item :style="{'display':'flex','justify-content':'center'}">
-                <el-input v-model="journeyForm.budget" placeholder="Budget"></el-input>
-                </el-form-item>
-
-                <el-button>
-                  <input style="width : 265px;" type="file" v-on:change="upload($event.target.files)" accept="image/*"></el-button>
-        
-            <div class="button-set">
-                <el-button @click="addJourney" class="createButton">Create Journey</el-button>
-              </div>
-              </el-form>
               
-
-              <div style="margin-top: 42px">
-              </div>
-
-            
-
-            </div>
-          </div>
-        </div>
-        <div class="box-part" id="bp-right">
-          <div class="box-messages">
-          </div>
-        </div>
-      </div>
-      </modal>
-
-    </div>
-
-    <div v-if="this.login == true">
-      <fab
-      :position="position"
-      :bg-color="bgColor"
-      :actions="fabActions"
-      @Add="formAccess"
-      @Edit="editJourney"
-        v-bind:files="file"
-      :onaddfile="upload"
-    ></fab>
-    </div>
-  </div> 
-  <!-- === Modal Ends === -->
 
 <div class="post" :key="index" v-for="(item, index) in array">
 
@@ -107,7 +51,8 @@
       :bg-color="bgColor"
       :actions="fabActions"
       @Add="formAccess"
-      @Edit="editJourney"
+      @Edit="profile"
+      @Search="home"
         v-bind:files="file"
       :onaddfile="upload" 
     ></fab>
@@ -172,8 +117,12 @@ export default {
                   icon: 'add'
               },
               {
-                  name: 'Edit',
-                  icon: 'edit'
+                name: 'Edit',
+                icon: 'home'
+              },
+              {
+                name: 'Search',
+                icon: 'search'
               }
           ]
     }
@@ -229,6 +178,12 @@ export default {
         }
         })
     },
+    profile(){
+      this.$router.push('/profile/user')
+    },
+    home(){
+      this.$router.push('/')
+    },
     async getPosts(user_id,id){
         return this.$router.push({path:`/${user_id}/journeys/${id}`})
     },
@@ -247,9 +202,6 @@ export default {
          return alert('Journey Created'),location.reload()
          
        })
-      },
-      async editJourney(){
-          alert('Clicked on alert icon');
       },
       async getId(){
         let user_id = await axios.get(`/profile/user`, {

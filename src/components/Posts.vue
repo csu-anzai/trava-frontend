@@ -114,8 +114,9 @@
   <b-card :title="item.day" style="max-width: 30rem;" class="mb-2" id="card">
          <img :src="item.pictures">
      <span>{{dateFormat(item.date)}}</span>
-              <div class="editpost" v-if="login == true">
-<el-button @click="editPost(item)" style=" position:absolute;top:0;right:10px; mid-width:20px"><i class="far fa-edit"></i></el-button>
+              <div class="editpost" v-if="owner">
+
+          <el-button @click="editPost(item)" style=" position:absolute;top:0;right:10px; mid-width:20px"><i class="far fa-edit"></i></el-button>
               </div>
      <b-card-text><strong>Budget: </strong>{{item.budget}}</b-card-text>
      <b-card-text><strong>Description: </strong>{{item.description}}</b-card-text> 
@@ -151,6 +152,7 @@ export default {
   data () {
     return {
       postId: null,
+      owner:false,
       file: [],
       login: false,
       cloudinary: {
@@ -176,6 +178,8 @@ export default {
               },
           ],
       postInfo: null,
+      ownerid: null,
+      userId: null,
     }
   },
   computed: {
@@ -184,7 +188,7 @@ export default {
         },
   },
   created () {
-    this.loginCheck()
+    this.getInfo()
     this.modalWidth = window.innerWidth < MODAL_WIDTH
       ? MODAL_WIDTH / 2
       : MODAL_WIDTH
@@ -193,25 +197,23 @@ export default {
     async getInfo(){
       axios.get(`/${this.$route.params.user_id}/journeys/${this.$route.params.id}`).then(response => {
          this.postInfo = response.data.posts
+         this.ownerid = response.data.user_id
+
+         if(this.ownerid == localStorage.getItem('id')){
+           this.owner = true
+         } else {
+           this.owner = false
+         }
          return this.postInfo
-       
         })
-        
     },
-    loginCheck(){
-      if (localStorage.getItem('token')) {
-        this.login = true
-        console.log('Have Token');
-      } else {
-        this.login = false
-        console.log('Dont Have Token');
-      }
-    },
+
     upload(err, file) {
         let image = JSON.parse(file.serverId)
         this.postForm.pictures = image.url
     },
     async addPost() {
+
       axios.post(`/${this.$route.params.user_id}/journeys/${this.$route.params.id}`, 
       {'journey_id':this.$route.params.id, 
       'date':this.postForm.date, 
@@ -270,12 +272,11 @@ export default {
     dateFormat (date) {
         return moment(String(date)).format('D MMMM YYYY')
 
-    }
+    },
   },
   async mounted(){
-    this.getInfo()
     this.findPost()
-  }
+  },
   }
 </script>
 
