@@ -7,7 +7,7 @@
         <img id="Cover" :src="info.cover">
         <img id="Avatar" :src="info.avatar">
         </div>
-<el-button icon="far fa-edit" @click="editForm" style="font-size: 30px;position:absolute;top:110px;right:10px;mid-width:100px;color:black;" primary></el-button>
+<el-button icon="far fa-edit" @click="editForm" style="font-size: 30px;position:absolute;top:140px;right:10px;mid-width:200px;color:black;" primary></el-button>
       
       <div id="Profile">
         <h1>
@@ -41,7 +41,7 @@
     <h4>{{info.username}}'s Journeys</h4>
 
     <div style="margin : 5px" :key="index" v-for="(item, index) in info.journeys">
-      <el-button class="butt" @click="getPosts(item.user_id, item.id)">
+      <el-button style="border:none;" class="butt" @click="getPosts(item.user_id, item.id)">
         <div class="card-trip">
 
           <img :src="item.cover" />
@@ -56,7 +56,7 @@
         </div>
       </el-button>
     </div>
-    <modal scrollable="true" name="edit" transition="pop-out" :width="modalWidth" :adaptive=true height="auto">
+    <modal scrollable name="edit" transition="pop-out" :width="modalWidth" :adaptive=true height="auto">
       <div class="box">
     <div class="box-part" id="bp-left">
       <div class="partition" id="partition-register">
@@ -139,6 +139,7 @@ export default {
   },
   data(){
     return {
+      scrollable: true,
       modalWidth: MODAL_WIDTH,
       info : null,
       file:[],
@@ -197,7 +198,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+h1 {
+  margin-left:40%
+}
 #info {
   display: flex;
   flex-wrap: wrap;
@@ -221,10 +224,11 @@ export default {
 #Cover{
   position: relative;
   width: 100%;
-  height: 138px;
+  height: 200px;
   background-color: #C4C4C4;
   border: 0.5px solid rgba(0, 0, 0, 0.1);
     margin: 0 auto;
+    border-bottom: 4px solid white
 }
 
 #Profile {
@@ -244,7 +248,7 @@ export default {
   height: 110px;
   width: 110px;
   left: 0px;
-  top:112px;
+  top:265px;
   margin-left:10px;
   border:3px solid white
 
@@ -268,8 +272,9 @@ img {
 
 button {
   padding: 0;
-border: none;
-background: none;
+border-radius: 40px;
+
+border-color: #369DD7;
     &:hover {
       color:#369DD7;
       background: #369DD7;
@@ -319,9 +324,7 @@ background: none;
   top: -20px;
   width: 40px;
 }
-.profile-wrapper {
-  margin-bottom: 70px
-}
+
 $background_color: #404142;
 $github_color: #DBA226;
 $facebook_color: #3880FF;

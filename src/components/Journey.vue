@@ -448,8 +448,7 @@ img {
 
 .journeyBox {
   position: relative;  
-    margin: 3px;
-    padding: 3px;  
+    padding: 1px;  
 
                         
 }
@@ -463,9 +462,6 @@ img {
   margin-bottom: 70px
 }
 
-.journey-wrapper {
-  margin-bottom: 70px;
-}
 
 
 </style>

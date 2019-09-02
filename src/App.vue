@@ -11,7 +11,7 @@
       </div>
 
       <div class="search-wrapper">
-        <input type="text" v-model="search" placeholder="Try search for a beach..."/>
+        <el-input type="text" v-model="search" placeholder="Try search for a beach..."/>
       </div>
       
 
@@ -31,6 +31,7 @@ export default {
   data(){
     return {
       login : false,
+      search: "",
     }
   },
   methods:{
