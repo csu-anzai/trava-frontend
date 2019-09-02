@@ -1,10 +1,11 @@
 <template>
+<div class="post-wrapper">
   <div class="posts">
     <modal name="form" transition="pop-out" :width="modalWidth" :adaptive=true height="auto">
       <div class="box">
     <div class="box-part" id="bp-left">
       <div class="partition" id="partition-register">
-        <div class="partition-title">Create a journey</div>
+        <div class="partition-title">Create a post</div>
         <div class="partition-form">
           <el-form>
             <el-form-item>
@@ -19,11 +20,69 @@
             <el-form-item>
               <el-input v-model="postForm.description" placeholder="What did you do today?"></el-input>
             </el-form-item>
-     <input type="file" class="form-control" v-on:change="upload($event.target.files)" accept="image/*" />
-        <div class="button-set">
+ <file-pond
+        name="image"
+        label-idle="Drop files here..."
+        allow-multiple="true"
+        accepted-file-types="image/jpeg, image/png"
+        v-bind:files="file"
+        server="https://92a4e89c.ap.ngrok.io/upload"
+        :onprocessfile="upload"
+     />        
+     <div class="button-set">
             <el-button @click="addPost" class="createButton">Add Post</el-button>
           </div>
           </el-form>
+          
+          
+
+          <div style="margin-top: 42px">
+          </div>
+
+         
+
+        </div>
+      </div>
+    </div>
+    <div class="box-part" id="bp-right">
+      <div class="box-messages">
+      </div>
+    </div>
+  </div>
+    </modal>
+    <modal name="edit" transition="pop-out" :width="modalWidth" :adaptive=true height="auto">
+      <div class="box">
+    <div class="box-part" id="bp-left">
+      <div class="partition" id="partition-register">
+        <div class="partition-title">Edit post</div>
+        <div class="partition-form">
+          <el-form>
+            <el-form-item>
+              <el-date-picker type="date" placeholder="Pick a date" v-model="postForm.date" style="width: 100%;"></el-date-picker>
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="postForm.budget" placeholder="Budget"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="postForm.day" placeholder="Day 1, Day 2 etc.."></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="postForm.description" placeholder="What did you do today?"></el-input>
+            </el-form-item>
+ <file-pond
+        name="image"
+        label-idle="Drop files here..."
+        allow-multiple="true"
+        accepted-file-types="image/jpeg, image/png"
+        v-bind:files="file"
+        server="https://0d10aaef.ap.ngrok.io/upload"
+        :onprocessfile="upload"
+     />        
+     <div class="button-set">
+            <el-button @click="saveChanges(postForm.id)" class="createButton">Save</el-button>
+          </div>
+          </el-form>
+          
           
 
           <div style="margin-top: 42px">
@@ -41,20 +100,33 @@
   </div>
     </modal>
     <div class="addpost" v-if="this.login == true">
-    <br><el-button @click="formAccess" class="createButton">Add post</el-button>
+ <fab
+   :position="position"
+   :bg-color="bgColor"
+   :actions="fabActions"
+   @Add="formAccess"
+    v-bind:files="file"
+   :onaddfile="upload" 
+></fab>
+
     </div>
-<div class="post" :key="index+10" v-for="(item, index) in postInfo">
+<div class="post" :key="index" v-for="(item, index) in postInfo">
   <b-card :title="item.day" style="max-width: 30rem;" class="mb-2" id="card">
+         <img :src="item.pictures">
      <span>{{dateFormat(item.date)}}</span>
+              <div class="editpost" v-if="login == true">
+<el-button @click="editPost(item)" style=" position:absolute;top:0;right:10px; mid-width:20px"><i class="far fa-edit"></i></el-button>
+              </div>
      <b-card-text><strong>Budget: </strong>{{item.budget}}</b-card-text>
      <b-card-text><strong>Description: </strong>{{item.description}}</b-card-text> 
-     <img :src="item.pictures" width="300px">
   </b-card>
 </div>
   </div>
+</div>  
 </template>
 
 <script>
+
 import { create } from 'domain';
 import { userInfo } from 'os';
 import vueFilePond, { setOptions } from 'vue-filepond';
@@ -63,18 +135,23 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'; 
 import { send } from 'q';
+
 const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
 const axios = require('axios')
 const MODAL_WIDTH = 656
 import moment from 'moment'
+import fab from 'vue-fab'
 
 export default {
-  name:'addAPost',
+  name:'FontAwesome',
   components: {
+    fab,
     FilePond
   },
   data () {
     return {
+      postId: null,
+      file: [],
       login: false,
       cloudinary: {
        uploadPreset: 'intkqwzq',
@@ -90,6 +167,14 @@ export default {
         modalWidth: MODAL_WIDTH,
 
       },
+      bgColor: '#369DD7',
+          position: 'bottom-right',
+          fabActions: [
+              {
+                  name: 'Add',
+                  icon: 'add'
+              },
+          ],
       postInfo: null,
     }
   },
@@ -106,7 +191,7 @@ export default {
   },
   methods: {
     async getInfo(){
-      axios.get(`http://127.0.0.1:3333/${this.$route.params.user_id}/journeys/${this.$route.params.id}`).then(response => {
+      axios.get(`/${this.$route.params.user_id}/journeys/${this.$route.params.id}`).then(response => {
          this.postInfo = response.data.posts
          return this.postInfo
        
@@ -122,26 +207,12 @@ export default {
         console.log('Dont Have Token');
       }
     },
-    upload(file) {
-        const formData = new FormData();
-
-      
-      formData.append('file', file[0]);
-      formData.append('upload_preset', this.cloudinary.uploadPreset);
-      formData.append('tags', 'gs-vue,gs-vue-uploaded');
-      
-
-
-      for(var pair of formData.entries()) {
-        console.log(pair[0]+', '+pair[1]);
-      }
-      console.log(file)
-      axios.post(this.clUrl, formData).then(res => {
-        this.thumbs = res.data.secure_url
-      })
+    upload(err, file) {
+        let image = JSON.parse(file.serverId)
+        this.postForm.pictures = image.url
     },
     async addPost() {
-      axios.post(`http://127.0.0.1:3333/${this.$route.params.user_id}/journeys/${this.$route.params.id}`, 
+      axios.post(`/${this.$route.params.user_id}/journeys/${this.$route.params.id}`, 
       {'journey_id':this.$route.params.id, 
       'date':this.postForm.date, 
       'budget':this.postForm.budget, 
@@ -152,10 +223,50 @@ export default {
       })
 
     },
+    async findPost() {
+      axios.get(`http://127.0.0.1:3333/${this.$route.params.user_id}/journeys/${this.$route.params.id}/${this.postId}`).then(response => {
+        this.postId = response.data
+        for(let i in this.postId){
+         let id = this.postId[i].id
+         return this.postId
+        }
+
+        
+      })
+    },
+     async editPost(item) {
+       this.postForm = { ...this.postForm, ...item }
+       this.$modal.show('edit')
+       this.postId = item.id
+    },
+       
+    async saveChanges(){
+       axios.put(`/${this.$route.params.user_id}/journeys/${this.$route.params.id}/${this.postId}`, 
+      {'journey_id':this.$route.params.id, 
+      'date':this.postForm.date, 
+      'budget':this.postForm.budget, 
+      'day':this.postForm.day, 
+      'description':this.postForm.description, 
+      'pictures': this.postForm.pictures}).then(response => {
+        return alert('Saved Created'),location.reload()
+      })
+
+    },
+
+
+
+
+      //       postForm: {
+      //   journey_id: this.$route.params.id,
+      //   date: '',
+      //   budget: '',
+      //   day: '',
+      //   pictures:'',
+      //   modalWidth: MODAL_WIDTH,
     formAccess(){
       this.$modal.show('form'); 
     },
-    
+  
     dateFormat (date) {
         return moment(String(date)).format('D MMMM YYYY')
 
@@ -163,12 +274,14 @@ export default {
   },
   async mounted(){
     this.getInfo()
+    this.findPost()
   }
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+
 h3 {
   margin: 40px 0 0;
 }
@@ -184,9 +297,10 @@ a {
   color: #42b983;
 }
 .post{
-display: flex;
-justify-content: center;
-margin: 10px
+  position: relative;  
+    margin: 3px;
+    padding: 3px;  
+           
 }
 .createButton {
   width:50%;
@@ -199,7 +313,7 @@ button {
     letter-spacing: 1px;
     font-family: "Open Sans", sans-serif;
     font-weight: 400;
-    min-width: 140px;
+    min-width: 20px;
     margin-top: 8px;
     color: #369DD7;
     cursor: pointer;
@@ -336,6 +450,21 @@ $facebook_color: #3880FF;
 .pop-out-leave-active {
   opacity: 0;
   transform: translateY(24px);
+}
+body {
+    margin-bottom: 70px;
+
+}
+.post-wrapper {
+  margin-bottom: 70px;
+
+}
+img {
+  border-radius: 10px;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  
 }
 
 

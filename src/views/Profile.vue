@@ -1,6 +1,6 @@
 <template>
 
-  <div>
+  <div class="profile-wrapper">
     <div>
       <div id="Cover">
         {{info.cover}}
@@ -76,7 +76,7 @@ export default {
   methods: {
     async get(){
 
-      axios.get('http://127.0.0.1:3333/profile/user' ,{ 
+      axios.get('/profile/user' ,{ 
         headers: { 
           Authorization: 'Bearer ' + localStorage.getItem('token')
         }
@@ -197,6 +197,9 @@ background: none;
   right: 16px;
   top: -20px;
   width: 40px;
+}
+.profile-wrapper {
+  margin-bottom: 70px
 }
 
 

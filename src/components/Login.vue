@@ -47,12 +47,12 @@ export default {
 
     },
     post() {
-      return axios.post('http://127.0.0.1:3333/login',{'username':this.username,'password':this.password})
+      return axios.post('/login',{'username':this.username,'password':this.password})
 
     }, 
     
     get() {
-      axios.get('http://127.0.0.1:3333/profile/user' ,{ 
+      axios.get('/profile/user' ,{ 
         headers: { 
           Authorization: 'Bearer ' + localStorage.getItem('token')
         } 

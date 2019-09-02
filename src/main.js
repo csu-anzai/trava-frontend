@@ -20,6 +20,8 @@ import VueFab from 'vue-float-action-button'
 import VModal from 'vue-js-modal'
 import Datetime from 'vue-datetime'
 
+
+
 // You need a specific loader for CSS files
 import 'vue-datetime/dist/vue-datetime.css'
 
@@ -49,6 +51,8 @@ Vue.filter('formatDate', function(value) {
 })
 
 Vue.use(require('vue-moment'));
+
+axios.defaults.baseURL = 'http://92a4e89c.ap.ngrok.io'
  
 Vue.use(ElementUI)
 Vue.use(VueAxios, axios)

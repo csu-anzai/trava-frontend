@@ -22,7 +22,7 @@ export default {
   
   methods: {
       post() {
-        return axios.post('http://127.0.0.1:3333/:user_id/journeys')
+        return axios.post('/:user_id/journeys')
     },
   }
 }

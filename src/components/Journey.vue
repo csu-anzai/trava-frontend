@@ -1,75 +1,74 @@
 <template>
-  <div class="journey">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <div class="addJourney">
-</div>
+  <div class="journey-wrapper">
+    <div class="addJourney"></div>
+    <div v-if="this.login == true">
+      <modal name="form" transition="pop-out" :width="modalWidth" :adaptive=true height="auto">
+      <div class="box">
+        <div class="box-part" id="bp-left">
+          <div class="partition" id="partition-register">
+            <div class="partition-title">Create a journey</div>
+            <div class="partition-form">
+              <el-form ref="journeyForm" :model="journeyForm" autocomplete="false">
+                <el-form-item>
+                <el-input v-model="journeyForm.title" placeholder="Journey Title"></el-input>
+                </el-form-item>
+                <el-form-item>
+                <el-input v-model="journeyForm.budget" placeholder="Budget"></el-input>
+                </el-form-item>
+        <!-- <input type="file" class="form-control" v-on:change="upload($event.target.files)" accept="image/*" /> -->
+        <file-pond
+            name="image"
+            label-idle="Drop files here..."
+            allow-multiple="true"
+            accepted-file-types="image/jpeg, image/png"
+            v-bind:files="file"
+            server="https://92a4e89c.ap.ngrok.io/upload"
+            :onprocessfile="upload"
+        />
+    
+            <div class="button-set">
+                <el-button @click="addJourney" class="createButton">Create Journey</el-button>
+              </div>
+              </el-form>
+              
 
-<div v-if="this.login == true">
-  <modal name="form" transition="pop-out" :width="modalWidth" :adaptive=true height="auto">
-  <div class="box">
-    <div class="box-part" id="bp-left">
-      <div class="partition" id="partition-register">
-        <div class="partition-title">Create a journey</div>
-        <div class="partition-form">
-          <el-form ref="journeyForm" :model="journeyForm" autocomplete="false">
-            <el-form-item :style="{'display':'flex','justify-content':'center'}">
-            <el-input v-model="journeyForm.title" placeholder="Journey Title"></el-input>
-            </el-form-item>
-            <el-form-item :style="{'display':'flex','justify-content':'center'}">
-            <el-input v-model="journeyForm.budget" placeholder="Budget"></el-input>
-            </el-form-item>
-     <input type="file" class="form-control" v-on:change="upload($event.target.files)" accept="image/*" />
-     
-        <div class="button-set">
-            <el-button @click="addJourney" class="createButton">Create Journey</el-button>
+              <div style="margin-top: 42px">
+              </div>
+
+            
+
+            </div>
           </div>
-          </el-form>
-          
-
-          <div style="margin-top: 42px">
+        </div>
+        <div class="box-part" id="bp-right">
+          <div class="box-messages">
           </div>
-
-         
-
         </div>
       </div>
+      </modal>
+
     </div>
-    <div class="box-part" id="bp-right">
-      <div class="box-messages">
+
+    <div class="fabButton" v-if="this.login == true">
+      <fab
+      :position="position"
+      :bg-color="bgColor"
+      :actions="fabActions"
+      @Add="formAccess"
+      @Edit="editJourney"
+        v-bind:files="file"
+      :onaddfile="upload" 
+    ></fab>
+    </div>
+
+      <div :key="index+10" v-for="(item, index) in array" class="journeyBox" @click="getPosts(item.user_id, item.id)">
+        <!-- <p><strong>Budget: </strong>{{item.budget}}</p>  -->     
+        <span><strong>{{item.title}}</strong></span>
+        <img :src="item.cover">
       </div>
-    </div>
+      <!-- <div class="empty"></div> -->
   </div>
-  </modal>
-
-</div>
-
-<div v-if="this.login == true">
-   <fab
-   :position="position"
-   :bg-color="bgColor"
-   :actions="fabActions"
-   @Add="formAccess"
-   @Edit="editJourney"
-    v-bind:files="file"
-   :onaddfile="upload"
-></fab>
-</div>
-
-<div class="post" :key="index+10" v-for="(item, index) in array">
-
-  <el-button @click="getPosts(item.user_id, item.id)">
-     <p><strong>{{item.title}}</strong></p>
-     <p><strong>Budget: </strong>{{item.budget}}</p> 
-     <img :src="item.cover" width="300px">
-  </el-button>
-  
-
-</div>
-
-
-  </div>
+   
 </template>
 
 <script>
@@ -102,11 +101,6 @@ export default {
     return {
       login : false,
       file: [], 
-      cloudinary: {
-       uploadPreset: 'intkqwzq',
-       apiKey: '585369829753931',
-       cloudName: 'duou0ej55'
-     }, 
      thumb: '',
   thumbs: '',
       journeyForm: {
@@ -115,7 +109,6 @@ export default {
         user_id: null,
         cover:[]
       },
-      id: null,
       array : null,
       modalWidth: MODAL_WIDTH,
       bgColor: '#369DD7',
@@ -145,29 +138,31 @@ export default {
   },
           
   methods: {
-   upload(file) {
-        const formData = new FormData();
+   upload(err, file) {
+     let image = JSON.parse(file.serverId)
+     this.thumbs = image.url
+      //   const formData = new FormData();
 
       
-      formData.append('file', file[0]);
-      formData.append('upload_preset', this.cloudinary.uploadPreset);
-      formData.append('tags', 'gs-vue,gs-vue-uploaded');
+      // formData.append('file', file[0]);
+      // formData.append('upload_preset', this.cloudinary.uploadPreset);
+      // formData.append('tags', 'gs-vue,gs-vue-uploaded');
       
 
 
-      for(var pair of formData.entries()) {
-        console.log(pair[0]+', '+pair[1]);
-      }
-      console.log(file)
-      axios.post(this.clUrl, formData).then(res => {
-        this.thumbs = res.data.secure_url
-      })
+      // for(var pair of formData.entries()) {
+      //   console.log(pair[0]+', '+pair[1]);
+      // }
+      // console.log(file)
+      // axios.post(this.clUrl, formData).then(res => {
+      //   this.thumbs = res.data.secure_url
+      // })
     },
   hide () {
     this.$modal.hide('hello-world');
   },
     async getInfo(){
-      await axios.get('http://127.0.0.1:3333/journeys').then(response => {
+      await axios.get('/journeys').then(response => {
         this.array = response.data
 
         for(let i in this.array){
@@ -184,14 +179,14 @@ export default {
       this.$modal.show('form');      
       },
       async addJourney(){
-       let user_id = await axios.get(`http://127.0.0.1:3333/profile/user`, {
+       let user_id = await axios.get(`/profile/user`, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
          }
         })
        let userId = user_id.data.id
        this.journeyForm.user_id = userId
-       await axios.post(`http://127.0.0.1:3333/${userId}/journeys`, {'title':this.journeyForm.title, 'budget':this.journeyForm.budget, 'cover':this.thumbs, 'user_id':userId}).then(response => {
+       await axios.post(`/${userId}/journeys`, {'title':this.journeyForm.title, 'budget':this.journeyForm.budget, 'cover':this.thumbs, 'user_id':userId}).then(response => {
          return alert('Journey Created'),location.reload()
          
        })
@@ -200,7 +195,7 @@ export default {
           alert('Clicked on alert icon');
       },
       async getId(){
-        let user_id = await axios.get(`http://127.0.0.1:3333/profile/user`, {
+        let user_id = await axios.get(`/profile/user`, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
          }
@@ -231,9 +226,20 @@ export default {
 
 
 <style scoped lang="scss">
+strong {
+      position: absolute;  
+    left: 50%;                        /* horizontal alignment */
+    top: 50%;                         /* vertical alignment */
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 30px;
+    text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
+    font-family: Futura
+}
 h3 {
   margin: 40px 0 0;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
@@ -248,6 +254,14 @@ a {
 .post {
   margin: 10px
 }
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+  
+
 $background_color: #404142;
 $github_color: #DBA226;
 $facebook_color: #3880FF;
@@ -401,6 +415,33 @@ $facebook_color: #3880FF;
   justify-content: center;
 }
 img {
-  border-radius: 10px
+  border-radius: 10px;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  
 }
+
+.journeyBox {
+  position: relative;  
+    margin: 3px;
+    padding: 3px;  
+
+                        
+}
+.fabButton {
+  width:100%;
+  display:flex;
+  align-content: center
+
+}
+.empty {
+  margin-bottom: 70px
+}
+
+.journey-wrapper {
+  margin-bottom: 70px;
+}
+
+
 </style>
