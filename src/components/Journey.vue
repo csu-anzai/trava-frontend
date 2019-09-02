@@ -35,6 +35,35 @@
               <div style="margin-top: 42px">
               </div>
 
+  <!-- === Modal Start === -->
+  <div id="Modal">
+    <div v-if="this.login == true">
+      <modal name="form" transition="pop-out" :width="modalWidth" :adaptive=true height="auto">
+      <div class="box">
+        <div class="box-part" id="bp-left">
+          <div class="partition" id="partition-register">
+            <div class="partition-title">Create a journey</div>
+            <div class="partition-form">
+              <el-form ref="journeyForm" :model="journeyForm" autocomplete="false">
+                <el-form-item :style="{'display':'flex','justify-content':'center'}">
+                <el-input v-model="journeyForm.title" placeholder="Journey Title"></el-input>
+                </el-form-item>
+                <el-form-item :style="{'display':'flex','justify-content':'center'}">
+                <el-input v-model="journeyForm.budget" placeholder="Budget"></el-input>
+                </el-form-item>
+
+                <el-button>
+                  <input style="width : 265px;" type="file" v-on:change="upload($event.target.files)" accept="image/*"></el-button>
+        
+            <div class="button-set">
+                <el-button @click="addJourney" class="createButton">Create Journey</el-button>
+              </div>
+              </el-form>
+              
+
+              <div style="margin-top: 42px">
+              </div>
+
             
 
             </div>
@@ -46,6 +75,24 @@
         </div>
       </div>
       </modal>
+
+    </div>
+
+    <div v-if="this.login == true">
+      <fab
+      :position="position"
+      :bg-color="bgColor"
+      :actions="fabActions"
+      @Add="formAccess"
+      @Edit="editJourney"
+        v-bind:files="file"
+      :onaddfile="upload"
+    ></fab>
+    </div>
+  </div> 
+  <!-- === Modal Ends === -->
+
+<div class="post" :key="index" v-for="(item, index) in array">
 
     </div>
 
@@ -133,7 +180,11 @@ export default {
   },
   computed: {
     clUrl() {
-        return `https://api.cloudinary.com/v1_1/${this.cloudinary.cloudName}/upload`  
+      try {
+        return `https://api.cloudinary.com/v1_1/${this.cloudinary.cloudName}/upload`
+      } catch (err) {
+        console.log(err);
+      }
         },
   },
           
@@ -206,10 +257,8 @@ export default {
       loginCheck(){
       if (localStorage.getItem('token')) {
         this.login = true
-        console.log('Have Token');
       } else {
         this.login = false
-        console.log('Dont Have Token');
       }
     }
   },
@@ -254,13 +303,12 @@ a {
 .post {
   margin: 10px
 }
-.centered {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+
+input {
+  width: auto;
+  height: auto;
 }
-  
+
 
 $background_color: #404142;
 $github_color: #DBA226;
