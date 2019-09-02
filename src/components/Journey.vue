@@ -39,7 +39,24 @@
         </div>
       </div>
               </modal>
-              
+
+  <!-- === Modal Start === -->
+
+    <div v-if="this.login == true">
+      <fab
+      :position="position"
+      :bg-color="bgColor"
+      :actions="fabActions"
+      @Add="formAccess"
+      @Edit="editJourney"
+      @Delete="editJourney"
+        v-bind:files="file"
+      :onaddfile="upload"
+    ></fab>
+    </div>
+  </div> 
+  <!-- === Modal Ends === -->
+
 
 <div class="post" :key="index" v-for="(item, index) in array">
 
@@ -53,6 +70,7 @@
       @Add="formAccess"
       @Edit="profile"
       @Search="home"
+
         v-bind:files="file"
       :onaddfile="upload" 
     ></fab>
@@ -65,7 +83,6 @@
       </div>
       <!-- <div class="empty"></div> -->
   </div>
-          </div>
    
 </template>
 
@@ -124,6 +141,7 @@ export default {
                 name: 'Search',
                 icon: 'search'
               }
+
           ]
     }
   },

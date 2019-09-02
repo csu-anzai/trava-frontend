@@ -1,17 +1,28 @@
 <template>
   <div>
 
-      <h3>Sign In</h3>
+      <br><h3>Sign In</h3>
 
     <div v-if="(login == false)">
       <div  class="login">
-        <input style="max-width : 250px" class="mt-2" v-on:keyup.enter="put" v-model="username" placeholder="username">
-      
-        <input style="max-width : 250px" v-on:keyup.enter="put" v-model="password" placeholder="password" type="password">
-        <button variant="info" @click="put">Log In</button>
+        <el-form>
+        <el-form-item>
+          <div class="username">
+        <p>Username</p>
+          </div>
+        <el-input style="max-width : 250px" v-on:keyup.enter="put" v-model="username" placeholder="username"/>
+        </el-form-item>
+        <div class="password">
+        <p>Password</p>
+        </div>
+        <el-form-item>
+        <el-input style="max-width : 250px" v-on:keyup.enter="put" v-model="password" placeholder="password" type="password"/>
+        </el-form-item>
+        <el-button variant="info" @click="put" type="primary">Log In</el-button>
+        </el-form>
       </div>
-
-      <a href="/signup"><h6>Create an account ?</h6></a>
+<br>
+      <a href="/signup"><h6>Create an account</h6></a>
     </div>
       
 
@@ -64,3 +75,13 @@ export default {
 }
 
 </script>
+<style scoped lang="scss">
+p {
+  margin-bottom: 0px;
+  font-size: 17.5px;
+
+}
+
+
+
+</style>
