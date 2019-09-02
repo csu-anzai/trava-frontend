@@ -41,47 +41,6 @@
               </modal>
 
   <!-- === Modal Start === -->
-  <div id="Modal">
-    <div v-if="this.login == true">
-      <modal name="form" transition="pop-out" :width="modalWidth" :adaptive=true height="auto">
-      <div class="box">
-        <div class="box-part" id="bp-left">
-          <div class="partition" id="partition-register">
-            <div class="partition-title">Create a journey</div>
-            <div class="partition-form">
-              <el-form ref="journeyForm" :model="journeyForm" autocomplete="false">
-                <el-form-item :style="{'display':'flex','justify-content':'center'}">
-                <el-input v-model="journeyForm.title" placeholder="Journey Title"></el-input>
-                </el-form-item>
-                <el-form-item :style="{'display':'flex','justify-content':'center'}">
-                <el-input v-model="journeyForm.budget" placeholder="Budget"></el-input>
-                </el-form-item>
-
-                <el-button>
-                  <input style="width : 265px;" type="file" v-on:change="upload($event.target.files)" accept="image/*"></el-button>
-        
-            <div class="button-set">
-                <el-button @click="addJourney" class="createButton">Create Journey</el-button>
-              </div>
-              </el-form>
-              
-
-              <div style="margin-top: 42px">
-              </div>
-
-            
-
-            </div>
-          </div>
-        </div>
-        <div class="box-part" id="bp-right">
-          <div class="box-messages">
-          </div>
-        </div>
-      </div>
-      </modal>
-
-    </div>
 
     <div v-if="this.login == true">
       <fab
@@ -90,6 +49,7 @@
       :actions="fabActions"
       @Add="formAccess"
       @Edit="editJourney"
+      @Delete="editJourney"
         v-bind:files="file"
       :onaddfile="upload"
     ></fab>
@@ -107,6 +67,7 @@
       :bg-color="bgColor"
       :actions="fabActions"
       @Add="formAccess"
+      @Delete="editJourney"
       @Edit="editJourney"
         v-bind:files="file"
       :onaddfile="upload" 
@@ -120,7 +81,6 @@
       </div>
       <!-- <div class="empty"></div> -->
   </div>
-          </div>
    
 </template>
 
@@ -171,10 +131,14 @@ export default {
                   name: 'Add',
                   icon: 'add'
               },
-              {
+               {
+                  name: 'Delete',
+                  icon: 'delete'
+              },  
+               {
                   name: 'Edit',
                   icon: 'edit'
-              }
+              },  
           ]
     }
   },

@@ -5,10 +5,10 @@
 
     <div v-if="(login == false)">
       <div  class="login">
-        <input style="max-width : 250px" class="mt-2" v-on:keyup.enter="put" v-model="username" placeholder="username">
+        <el-input style="max-width : 250px" class="mt-2" v-on:keyup.enter="put" v-model="username" placeholder="username"/>
       
-        <input style="max-width : 250px" v-on:keyup.enter="put" v-model="password" placeholder="password" type="password">
-        <button variant="info" @click="put">Log In</button>
+        <el-input style="max-width : 250px" v-on:keyup.enter="put" v-model="password" placeholder="password" type="password"/>
+        <el-button variant="info" @click="put" type="primary">Log In</el-button>
       </div>
 
       <a href="/signup"><h6>Create an account ?</h6></a>
