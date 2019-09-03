@@ -99,7 +99,7 @@ export default {
       if(this.$router.currentRoute.params.id == localStorage.getItem('username')){
         this.$router.push('/myprofile')
       }
-
+    },
     async editForm() {
        this.$modal.show('edit')
     },
