@@ -1,5 +1,10 @@
 <template>
   <div class="journey-wrapper">
+
+     <div class="search-wrapper">
+        <el-input type="text" v-model="search" placeholder="Try search for a beach..."/>
+      </div>
+      
     <div class="addJourney"></div>
     <div v-if="this.login == true">
       <modal name="form" transition="pop-out" :width="modalWidth" :adaptive=true height="auto">
@@ -76,12 +81,12 @@
     ></fab>
     </div>
 
-      <div :key="index+10" v-for="(item, index) in array" class="journeyBox" @click="getPosts(item.user_id, item.id)">
-        <!-- <p><strong>Budget: </strong>{{item.budget}}</p>  -->     
+      <div :key="index" v-for="(item, index) in filteredList" class="journeyBox" @click="getPosts(item.user_id, item.id)">
+             
         <span><strong>{{item.title}}</strong></span>
         <img :src="item.cover">
+
       </div>
-      <!-- <div class="empty"></div> -->
   </div>
    
 </template>
@@ -117,6 +122,7 @@ export default {
       login : false,
       file: [], 
      thumb: '',
+     search:'',
   thumbs: '',
       journeyForm: {
         title: '',
@@ -159,7 +165,21 @@ export default {
         console.log(err);
       }
         },
+        filteredList() {
+      return this.array.filter(item => {
+        let title = item.title.toLowerCase().includes(this.search.toLowerCase())
+        let budget = item.budget.toLowerCase().includes(this.search.toLowerCase())
+
+          if(title) {
+            return title
+          } else if (budget) {
+            return budget
+          }
+
+        })
   },
+  },
+
           
   methods: {
    upload(err, file) {
