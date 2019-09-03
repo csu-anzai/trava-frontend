@@ -53,8 +53,6 @@
       :bg-color="bgColor"
       :actions="fabActions"
       @Add="formAccess"
-      @Edit="editJourney"
-      @Delete="editJourney"
         v-bind:files="file"
       :onaddfile="upload"
     ></fab>
