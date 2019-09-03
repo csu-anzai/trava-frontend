@@ -53,6 +53,7 @@ export default {
 
       localStorage.setItem('token', this.token)
       localStorage.setItem('id', this.id)
+      localStorage.setItem('username', this.username)
       this.get()
 
     },

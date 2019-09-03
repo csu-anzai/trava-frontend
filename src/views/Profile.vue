@@ -158,7 +158,6 @@ export default {
         }
       }).then(response => {
         this.info = response.data
-        console.log(response.data)
         })
 
     },
@@ -173,7 +172,6 @@ export default {
     },
     uploadAvatar(err, file) {
         let image = JSON.parse(file.serverId)
-        console.log(image.url)
         this.info.avatar = image.url
     },
      uploadCover(err, file) {
@@ -188,8 +186,7 @@ export default {
       }).then(response => {
         return alert('Changes Saved'), location.reload()
       })
-    }
-
+    },
   },
   created(){
     this.get()

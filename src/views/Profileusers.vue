@@ -7,7 +7,8 @@
         <img id="Cover" :src="info.cover">
         <img id="Avatar" :src="info.avatar">
         </div>
-<el-button @click="editForm" style="border-radius:5px;padding:1px 1px;font-size: 25px;position:absolute;top:100px;right:10px;mid-width:50px;color:black;" primary><i class="far fa-edit"></i></el-button>
+
+
       
       <div id="Profile">
         <h1>
@@ -58,102 +59,33 @@
         </div>
       </el-button>
     </div>
-    <modal scrollable name="edit" transition="pop-out" :width="modalWidth" :adaptive=true height="auto">
-      <div class="box">
-    <div class="box-part" id="bp-left">
-      <div class="partition" id="partition-register">
-        <div class="partition-title">Edit post</div>
-        <div class="partition-form">
-          <el-form>
-            <el-form-item label="About">
-              <el-input v-model="info.about" placeholder="About yourself"></el-input>
-            </el-form-item>
-            <el-form-item label="Cover image">
- <file-pond
-        name="image"
-        label-idle="Select/drop files here..."
-        allow-multiple="true"
-        accepted-file-types="image/jpeg, image/png"
-        v-bind:files="file"
-        server="https://63ecca8f.ap.ngrok.io/upload"
-        :onprocessfile="uploadCover"
-     />        
-     </el-form-item>
-       <el-form-item label="Avatar">
- <file-pond
-        name="image"
-        label-idle="Select/drop files here..."
-        allow-multiple="true"
-        accepted-file-types="image/jpeg, image/png"
-        v-bind:files="file"
-        server="https://63ecca8f.ap.ngrok.io/upload"
-        :onprocessfile="uploadAvatar"
-     />        
-     </el-form-item>
-
-     <div class="button-set">
-            <el-button @click="editProfile" class="createButton">Save Changes</el-button>
-          </div>
-          </el-form>
-          
-          
-
-          <div style="margin-top: 42px">
-          </div>
-
-         
-
-        </div>
-      </div>
-    </div>
-    <div class="box-part" id="bp-right">
-      <div class="box-messages">
-      </div>
-    </div>
-  </div>
-    </modal>
   
   </div>
 </template>
 
 <script>
-import moment from 'moment'
 import Posts from '@/components/JCard.vue'
 const axios = require('axios')
-import { create } from 'domain';
-import { userInfo } from 'os';
-import vueFilePond, { setOptions } from 'vue-filepond';
-import 'filepond/dist/filepond.min.css';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview'; 
-import { send } from 'q';
-
-const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
-const MODAL_WIDTH = 656
 import fab from 'vue-fab'
 
 
 export default {
   name: 'profile',
   components: {
-    FilePond
   },
   data(){
     return {
-      scrollable: true,
-      modalWidth: MODAL_WIDTH,
       info : null,
       file:[],
       followed: null,
         
+
       }
   },
   methods: {
     async get(){
       axios.get(`/profile/${this.$router.currentRoute.params.id}`).then(response => {
         this.info = response.data
-        console.log(response.data)
         })
 
     },
@@ -163,6 +95,11 @@ export default {
     getPosts(user_id,id){
       this.$router.push({path:`/${user_id}/journeys/${id}`})
     },
+    async check(){
+      if(this.$router.currentRoute.params.id == localStorage.getItem('username')){
+        this.$router.push('/myprofile')
+      }
+
     async editForm() {
        this.$modal.show('edit')
     },
@@ -204,14 +141,12 @@ export default {
     },
     async unfollow() {
       await axios.delete(`/profile/${this.$route.params.id}`)
-    }
 
+    }
   },
   created(){
+    this.check()
     this.get()
-    this.modalWidth = window.innerWidth < MODAL_WIDTH
-      ? MODAL_WIDTH / 2
-      : MODAL_WIDTH
   }
 }
 </script>
@@ -288,8 +223,6 @@ img {
                         
 }
 
-
-
 .card-trip {
   overflow: hidden;
   background: white;
@@ -334,6 +267,7 @@ img {
 $background_color: #404142;
 $github_color: #DBA226;
 $facebook_color: #3880FF;
+
 .box {
   background: white;
   overflow: hidden;
