@@ -6,7 +6,6 @@ import Signup from './components/Signup'
 import Profile from './views/Profile'
 import Login from './components/Login'
 import UserJourney from './components/UserJourney'
-import addJourney from './components/addJourney'
 import Follower from './components/Follower'
 import Profileusers from './views/Profileusers'
 
@@ -26,11 +25,6 @@ export default new Router({
       path: '/journeys',
       name: 'journey',
       component: Journey
-    },
-    {
-      path: '/:user_id/journeys',
-      name: 'addjourney',
-      component: addJourney
     },
     {
       path: '/:user_id/journeys',
