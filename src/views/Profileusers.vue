@@ -15,7 +15,8 @@
           {{info.username}}
         </h1>
 
-        <el-button @click="follow">FOLLOW</el-button>
+        <el-button v-show="!this.followed" @click="follow">FOLLOW</el-button>
+        <el-button v-show="(this.followed)" @click="unfollow">UNFOLLOW</el-button>
         
         <div id="info">
           <p>
@@ -24,7 +25,8 @@
           </p><br>
 
           <p>
-            {{info.followers.length}}<br>
+            <span v-if="followinguser.length == null">0</span>
+            {{followinguser.length}}<br>
             Followings
           </p><br>
 
@@ -67,6 +69,7 @@
 import Posts from '@/components/JCard.vue'
 const axios = require('axios')
 import fab from 'vue-fab'
+import { async } from 'q';
 
 
 export default {
@@ -78,6 +81,7 @@ export default {
       info : null,
       file:[],
       followed: null,
+      followinguser: null,
       }
   },
   methods: {
@@ -93,8 +97,12 @@ export default {
       this.$router.push({path:`/${user_id}/journeys/${id}`})
     },
     async check(){
+      let res = await axios.get(`http://127.0.0.1:3333/followers/${localStorage.getItem('id')}`)
+      let id = res.data.follower_id
       if(this.$router.currentRoute.params.id == localStorage.getItem('username')){
         this.$router.push('/myprofile')
+      } else if (localStorage.getItem('id') == id) {
+        this.followed = true
       }
     },
 
@@ -106,7 +114,7 @@ export default {
         console.log(image.url)
         this.info.avatar = image.url
     },
-     uploadCover(err, file) {
+    uploadCover(err, file) {
         let image = JSON.parse(file.serverId)
         this.info.cover = image.url
     },
@@ -120,13 +128,28 @@ export default {
       })
     },
     async follow() {
-      axios.post(`/profile/${this.$router.currentRoute.params.id}`,{'follower_id': localStorage.getItem('id'),'user_id':this.info.id}).then(response => {
-        console.log(response.data)
-      })
+      axios.post(`/profile/${this.$router.currentRoute.params.id}`,{'follower_id': localStorage.getItem('id'),'user_id':this.info.id}).then(response => {})
+      location.reload()
+    },
+    async unfollow() {
+      axios.delete(`/profile/${this.$router.currentRoute.params.id}`,{
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        },
+        data: {
+          'follower_id': localStorage.getItem('id')
+        }})
+      .then(response => {})
+      location.reload()
+    },
+    async following() {
+      let following = await axios.get(`/followers/${localStorage.getItem('id')}`)
+      this.followinguser = following
     }
   },
   created(){
     this.check()
+    this.following()
     this.get()
 }
 }

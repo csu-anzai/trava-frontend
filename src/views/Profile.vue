@@ -15,8 +15,6 @@
         <h1>
           {{info.username}}
         </h1>
-        <el-button @click="followed = true" v-show="!followed" style="padding:3px 3px;font-size: 17px;position:absolute;top:290px;right:220px;mid-width:50px;">Follow</el-button>
-        <el-button @click="followed = false" v-show="followed" style="padding:3px 3px;font-size: 17px;position:absolute;top:290px;right:220px;mid-width:50px;">Unfollow</el-button>
         
         <div id="info">
           <p>
@@ -159,6 +157,7 @@ export default {
       modalWidth: MODAL_WIDTH,
       info : null,
       file:[],
+
       followed: false,
       login: false,
       position: 'bottom-right',
@@ -175,6 +174,7 @@ export default {
               
 
           ]
+
         
       }
   },
