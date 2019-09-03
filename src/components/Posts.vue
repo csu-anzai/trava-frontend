@@ -251,13 +251,7 @@ export default {
         return this.ownerinfo = response.data
       })
     },
-    async getPostOwner(){
-      axios.get(`/profile/${this.$route.params.user_id}`).then(response => {
-        this.userName = response.data.username
-        
-      })
-    },
-   
+  
     upload(err, file) {
         let image = JSON.parse(file.serverId)
         this.postForm.pictures = image.url
