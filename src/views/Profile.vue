@@ -23,7 +23,8 @@
           </p><br>
 
           <p>
-            {{info.followers.length}}<br>
+            <span v-if="followinguser.length == null">0</span>
+            {{followinguser.length}}<br>
             Followings
           </p><br>
 
@@ -157,7 +158,7 @@ export default {
       modalWidth: MODAL_WIDTH,
       info : null,
       file:[],
-
+      followinguser:[],
       followed: false,
       login: false,
       position: 'bottom-right',
@@ -225,10 +226,16 @@ export default {
       } else {
         this.login = false
       }
+    },
+    async following() {
+      let following = await axios.get(`/followers/${localStorage.getItem('id')}`)
+      this.followinguser.push(following.data.user_id)
+
     }
   },
   created(){
     this.get()
+    this.following()
     this.loginCheck()
     this.modalWidth = window.innerWidth < MODAL_WIDTH
       ? MODAL_WIDTH / 2
