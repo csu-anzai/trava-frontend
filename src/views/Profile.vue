@@ -7,12 +7,14 @@
         <img id="Cover" :src="info.cover">
         <img id="Avatar" :src="info.avatar">
         </div>
-<el-button icon="far fa-edit" @click="editForm" style="font-size: 30px;position:absolute;top:140px;right:10px;mid-width:200px;color:black;" primary></el-button>
+<el-button @click="editForm" style="border-radius:5px;padding:1px 1px;font-size: 25px;position:absolute;top:100px;right:10px;mid-width:50px;color:black;" primary><i class="far fa-edit"></i></el-button>
       
       <div id="Profile">
         <h1>
           {{info.username}}
         </h1>
+        <el-button @click="followed = true" v-show="!followed" style="padding:3px 3px;font-size: 17px;position:absolute;top:290px;right:220px;mid-width:50px;">Follow</el-button>
+        <el-button @click="followed = false" v-show="followed" style="padding:3px 3px;font-size: 17px;position:absolute;top:290px;right:220px;mid-width:50px;">Unfollow</el-button>
         
         <div id="info">
           <p>
@@ -70,10 +72,10 @@
  <file-pond
         name="image"
         label-idle="Select/drop files here..."
-        allow-multiple="true"
+        allow-multiple="false"
         accepted-file-types="image/jpeg, image/png"
         v-bind:files="file"
-        server="https://63ecca8f.ap.ngrok.io/upload"
+        server="http://127.0.0.1:3333/upload"
         :onprocessfile="uploadCover"
      />        
      </el-form-item>
@@ -81,10 +83,10 @@
  <file-pond
         name="image"
         label-idle="Select/drop files here..."
-        allow-multiple="true"
+        allow-multiple="false"
         accepted-file-types="image/jpeg, image/png"
         v-bind:files="file"
-        server="https://63ecca8f.ap.ngrok.io/upload"
+        server="http://127.0.0.1:3333/upload"
         :onprocessfile="uploadAvatar"
      />        
      </el-form-item>
@@ -143,6 +145,7 @@ export default {
       modalWidth: MODAL_WIDTH,
       info : null,
       file:[],
+      followed: false,
         
       }
   },
@@ -248,7 +251,7 @@ h1 {
   height: 110px;
   width: 110px;
   left: 0px;
-  top:265px;
+  top:216px;
   margin-left:10px;
   border:3px solid white
 
@@ -270,17 +273,7 @@ img {
 }
 
 
-button {
-  padding: 0;
-border-radius: 40px;
 
-border-color: #369DD7;
-    &:hover {
-      color:#369DD7;
-      background: #369DD7;
-      border-color: #369DD7;
-    }
-}
 
 
 

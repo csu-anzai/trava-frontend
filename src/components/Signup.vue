@@ -24,7 +24,7 @@
         allow-multiple="true"
         accepted-file-types="image/jpeg, image/png"
         v-bind:files="file"
-        server="https://63ecca8f.ap.ngrok.io/upload"
+        server="http://127.0.0.1:3333/upload"
         :onprocessfile="uploadCover"
      />        
      </el-form-item>
