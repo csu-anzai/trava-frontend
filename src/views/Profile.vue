@@ -1,6 +1,8 @@
 <template>
+ 
 
   <div class="profile-wrapper">
+    
     <div class="profile-container">
       <div id="headers">
         
@@ -73,7 +75,7 @@
         allow-multiple="false"
         accepted-file-types="image/jpeg, image/png"
         v-bind:files="file"
-        server="http://127.0.0.1:3333/upload"
+        server="https://50aff656.ap.ngrok.io/upload"
         :onprocessfile="uploadCover"
      />        
      </el-form-item>
@@ -84,7 +86,7 @@
         allow-multiple="false"
         accepted-file-types="image/jpeg, image/png"
         v-bind:files="file"
-        server="http://127.0.0.1:3333/upload"
+        server="https://50aff656.ap.ngrok.io/upload"
         :onprocessfile="uploadAvatar"
      />        
      </el-form-item>
@@ -110,6 +112,17 @@
     </div>
   </div>
     </modal>
+    <div v-if="this.login == true">
+  <fab
+   :position="position"
+   :bg-color="bgColor"
+   :actions="fabActions"
+   @Add="formAccess"
+   @Home="navigateHome"
+    v-bind:files="file"
+   :onaddfile="upload" 
+   ></fab>
+ </div>
   
   </div>
 </template>
@@ -135,7 +148,8 @@ import fab from 'vue-fab'
 export default {
   name: 'profile',
   components: {
-    FilePond
+    FilePond,
+    fab,
   },
   data(){
     return {
@@ -143,6 +157,24 @@ export default {
       modalWidth: MODAL_WIDTH,
       info : null,
       file:[],
+
+      followed: false,
+      login: false,
+      position: 'bottom-right',
+            bgColor: '#369DD7',
+          fabActions: [
+              {
+                  name: 'Add',
+                  icon: 'add'
+              },
+              {
+                name: 'Home',
+                icon: 'home'
+              },
+              
+
+          ]
+
         
       }
   },
@@ -164,6 +196,9 @@ export default {
     getPosts(user_id,id){
       this.$router.push({path:`/${user_id}/journeys/${id}`})
     },
+    navigateHome(){
+      this.$router.push({path:`/`})
+    },
     async editForm() {
        this.$modal.show('edit')
     },
@@ -184,9 +219,17 @@ export default {
         return alert('Changes Saved'), location.reload()
       })
     },
+    loginCheck(){
+      if (localStorage.getItem('token')) {
+        this.login = true
+      } else {
+        this.login = false
+      }
+    }
   },
   created(){
     this.get()
+    this.loginCheck()
     this.modalWidth = window.innerWidth < MODAL_WIDTH
       ? MODAL_WIDTH / 2
       : MODAL_WIDTH

@@ -27,7 +27,7 @@
             allow-multiple="true"
             accepted-file-types="image/jpeg, image/png"
             v-bind:files="file"
-            server="http://127.0.0.1:3333/upload"
+            server="https://50aff656.ap.ngrok.io/upload"
             :onprocessfile="upload"
         />
     
@@ -71,7 +71,7 @@
       :bg-color="bgColor"
       :actions="fabActions"
       @Add="formAccess"
-      @Edit="profile"
+      @Profile="profile"
 
         v-bind:files="file"
       :onaddfile="upload" 
@@ -137,8 +137,8 @@ export default {
                   icon: 'add'
               },
               {
-                name: 'Edit',
-                icon: 'home'
+                name: 'Profile',
+                icon: 'account_box'
               },
               
 

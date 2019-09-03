@@ -26,7 +26,7 @@
         allow-multiple="false"
         accepted-file-types="image/jpeg, image/png"
         v-bind:files="file"
-        server="http://127.0.0.1:3333/upload"
+        server="https://50aff656.ap.ngrok.io/upload"
         :onprocessfile="upload"
      />        
      <div class="button-set">
@@ -75,7 +75,7 @@
         allow-multiple="true"
         accepted-file-types="image/jpeg, image/png"
         v-bind:files="file"
-        server="http://127.0.0.1:3333/upload"
+        server="https://50aff656.ap.ngrok.io/upload"
         :onprocessfile="upload"
      />        
      <div class="button-set">
@@ -99,6 +99,15 @@
     </div>
   </div>
     </modal>
+    <fab
+   :position="position"
+   :bg-color="bgColor"
+   :actions="fabActionsNotLogged"
+   @Home="navigateHome"
+   @Profile="navigateProfile"
+    v-bind:files="file"
+   :onaddfile="upload" 
+   ></fab>
    
     <div class="addpost" v-if="this.login == true && owner">
   <fab
@@ -106,18 +115,23 @@
    :bg-color="bgColor"
    :actions="fabActions"
    @Add="formAccess"
+   @Home="navigateHome"
+   @Profile="navigateProfile"
     v-bind:files="file"
    :onaddfile="upload" 
    ></fab>
 
     </div>
+    <div >
+      
+    <el-button id="profbutton" @click="navigateUserProfile"><img id="profimage" :src="ownerinfo.avatar" style="width:50px;border-radius:50px;height:50px"> {{ownerinfo.username}}</el-button>
+      
+    </div>
 <div class="post" :key="index" v-for="(item, index) in postInfo">
   <b-card :title="item.day" style="max-width: 30rem;" class="mb-2" id="card">
-    {{ownerinfo.avatar}}{{ownerinfo.username}}
          <img :src="item.pictures">
      <span>{{dateFormat(item.date)}}</span>
               <div class="editpost" v-if="owner">
-
           <el-button @click="editPost(item)" style=" position:absolute;top:0;right:10px; mid-width:20px"><i class="far fa-edit"></i></el-button>
               </div>
      <b-card-text><strong>Budget: </strong>{{item.budget}}</b-card-text>
@@ -178,11 +192,30 @@ export default {
                   name: 'Add',
                   icon: 'add'
               },
+              {
+               name: 'Home',
+                  icon: 'home'
+              },
+              {
+               name: 'Profile',
+                  icon: 'account_box'
+              },
+          ],
+          fabActionsNotLogged: [
+              {
+               name: 'Home',
+                  icon: 'home'
+              },
+              {
+               name: 'Profile',
+                  icon: 'account_box'
+              },
           ],
       postInfo: null,
       ownerid: null,
       ownerinfo:null,
       userId: null,
+      userName: null,
     }
   },
   computed: {
@@ -203,6 +236,7 @@ export default {
       axios.get(`/${this.$route.params.user_id}/journeys/${this.$route.params.id}`).then(response => {
          this.postInfo = response.data.posts
          this.ownerid = response.data.user_id
+         
 
          if(this.ownerid == localStorage.getItem('id')){
            this.owner = true
@@ -213,13 +247,29 @@ export default {
         })
     },
     async getOwner(){
-      axios.get(`/profile/${localStorage.getItem('username')}`).then(response => {
-        this.ownerinfo = response.data
+      axios.get(`/profile/${this.$route.params.user_id}`).then(response => {
+        return this.ownerinfo = response.data
       })
     },
+    async getPostOwner(){
+      axios.get(`/profile/${this.$route.params.user_id}`).then(response => {
+        this.userName = response.data.username
+        
+      })
+    },
+   
     upload(err, file) {
         let image = JSON.parse(file.serverId)
         this.postForm.pictures = image.url
+    },
+     navigateHome(){
+      this.$router.push({path:`/`})
+    },
+     navigateProfile(){
+      this.$router.push({path:`/myprofile`})
+    },
+     navigateUserProfile(){
+      this.$router.push({path:`/profile/${this.$route.params.user_id}`})
     },
     async addPost() {
 
@@ -239,6 +289,7 @@ export default {
         this.postId = response.data
         for(let i in this.postId){
          let id = this.postId[i].id
+         console.log(response.data)
          return this.postId
         }
 
@@ -317,6 +368,17 @@ a {
   position: relative;  
     margin: 3px;
     padding: 3px;  
+           
+}
+
+#profbutton {
+  display: flex;
+  align-items: flex-start;
+    margin: 3px;
+    padding: 3px;  
+    width: 99%;
+    border-radius: 5px;
+    border-color: #369DD7;
            
 }
 .createButton {
