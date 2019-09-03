@@ -87,8 +87,14 @@ export default {
     getPosts(user_id,id){
       this.$router.push({path:`/${user_id}/journeys/${id}`})
     },
+    async check(){
+      if(this.$router.currentRoute.params.id == localStorage.getItem('username')){
+        this.$router.push('/myprofile')
+      }
+    }
   },
   created(){
+    this.check()
     this.get()
   }
 }

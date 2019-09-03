@@ -50,18 +50,12 @@ export default new Router({
     {
       path: '/profile/:id',
       name: 'profile',
-      component: Profileusers,
+      component: Profileusers
     },
     {
-      path: "/profile",
-      name: "home",
-      get component() {
-          if (true) {
-              return Profile;
-          } else {
-              return Journey;
-          }
-      }, 
+      path: '/myprofile',
+      name: 'myProfile',
+      component: Profile
     },
     {
       path: '/login',
