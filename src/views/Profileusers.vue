@@ -24,7 +24,8 @@
             Followers
           </p><br>
 
-          <p v-if="followinguser == null">
+          <p>
+            <span v-if="followinguser.length == null">0</span>
             {{followinguser.length}}<br>
             Followings
           </p><br>
