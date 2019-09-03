@@ -99,6 +99,15 @@
     </div>
   </div>
     </modal>
+    <fab
+   :position="position"
+   :bg-color="bgColor"
+   :actions="fabActionsNotLogged"
+   @Home="navigateHome"
+   @Profile="navigateProfile"
+    v-bind:files="file"
+   :onaddfile="upload" 
+   ></fab>
    
     <div class="addpost" v-if="this.login == true && owner">
   <fab
@@ -106,6 +115,8 @@
    :bg-color="bgColor"
    :actions="fabActions"
    @Add="formAccess"
+   @Home="navigateHome"
+   @Profile="navigateProfile"
     v-bind:files="file"
    :onaddfile="upload" 
    ></fab>
@@ -113,7 +124,7 @@
     </div>
 <div class="post" :key="index" v-for="(item, index) in postInfo">
   <b-card :title="item.day" style="max-width: 30rem;" class="mb-2" id="card">
-    {{ownerinfo.avatar}}{{ownerinfo.username}}
+    {{ownerinfo.avatar}}<span @click="navigateUserProfile">{{item.username}}</span>
          <img :src="item.pictures">
      <span>{{dateFormat(item.date)}}</span>
               <div class="editpost" v-if="owner">
@@ -178,6 +189,24 @@ export default {
                   name: 'Add',
                   icon: 'add'
               },
+              {
+               name: 'Home',
+                  icon: 'home'
+              },
+              {
+               name: 'Profile',
+                  icon: 'account_box'
+              },
+          ],
+          fabActionsNotLogged: [
+              {
+               name: 'Home',
+                  icon: 'home'
+              },
+              {
+               name: 'Profile',
+                  icon: 'account_box'
+              },
           ],
       postInfo: null,
       ownerid: null,
@@ -193,6 +222,7 @@ export default {
   created () {
     this.getInfo()
     this.getOwner()
+    this.getPostOwner()
     this.loginCheck()
     this.modalWidth = window.innerWidth < MODAL_WIDTH
       ? MODAL_WIDTH / 2
@@ -203,6 +233,7 @@ export default {
       axios.get(`/${this.$route.params.user_id}/journeys/${this.$route.params.id}`).then(response => {
          this.postInfo = response.data.posts
          this.ownerid = response.data.user_id
+         
 
          if(this.ownerid == localStorage.getItem('id')){
            this.owner = true
@@ -213,13 +244,29 @@ export default {
         })
     },
     async getOwner(){
-      axios.get(`/profile/${localStorage.getItem('username')}`).then(response => {
+      axios.get(`/profile/${localStorage.getItem('id')}`).then(response => {
+        this.postInfo = response.data
+        console.log(response.data.username)
+      })
+    },
+    async getPostOwner(){
+      axios.get(`/profile/${this.$route.params.user_id}`).then(response => {
         this.ownerinfo = response.data
       })
     },
+   
     upload(err, file) {
         let image = JSON.parse(file.serverId)
         this.postForm.pictures = image.url
+    },
+     navigateHome(){
+      this.$router.push({path:`/`})
+    },
+     navigateProfile(){
+      this.$router.push({path:`/myprofile`})
+    },
+     navigateUserProfile(){
+      this.$router.push({path:`/profile/${this.$route.params.user_id}`})
     },
     async addPost() {
 
@@ -239,6 +286,7 @@ export default {
         this.postId = response.data
         for(let i in this.postId){
          let id = this.postId[i].id
+         console.log(response.data)
          return this.postId
         }
 
