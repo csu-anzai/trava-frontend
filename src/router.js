@@ -7,6 +7,8 @@ import Profile from './views/Profile'
 import Login from './components/Login'
 import UserJourney from './components/UserJourney'
 import addJourney from './components/addJourney'
+import Follower from './components/Follower'
+import Profileusers from './views/Profileusers'
 
 Vue.use(Router)
 
@@ -46,9 +48,9 @@ export default new Router({
       component: Signup,
     },
     {
-      path: '/profile/:userid',
+      path: '/profile/:id',
       name: 'profile',
-      component: Profile,
+      component: Profileusers,
     },
     {
       path: "/profile",
@@ -72,5 +74,6 @@ export default new Router({
         }
       }
     },
+    
   ]
 })

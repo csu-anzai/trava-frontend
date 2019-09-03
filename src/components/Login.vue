@@ -57,7 +57,7 @@ export default {
 
     },
     post() {
-      return axios.post('/login',{'username':this.username,'email':this.username,'password':this.password})
+      return axios.post('/login',{'username':this.username,'password':this.password})
 
     }, 
     
