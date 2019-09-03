@@ -5,7 +5,7 @@
       <div id="headers">
         
         <img id="Cover" :src="info.cover">
-        <img id="Avatar" style="top:216px" :src="info.avatar">
+        <img id="Avatar" :src="info.avatar">
         </div>
 <el-button @click="editForm" style="border-radius:5px;padding:1px 1px;font-size: 25px;position:absolute;top:100px;right:10px;mid-width:50px;color:black;" primary><i class="far fa-edit"></i></el-button>
       

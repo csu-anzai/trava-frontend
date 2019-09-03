@@ -7,12 +7,14 @@
         <img id="Cover" :src="info.cover">
         <img id="Avatar" :src="info.avatar">
         </div>
-<el-button icon="far fa-edit" @click="editForm" style="font-size: 30px;position:absolute;top:140px;right:10px;mid-width:200px;color:black;" primary></el-button>
+<el-button @click="editForm" style="border-radius:5px;padding:1px 1px;font-size: 25px;position:absolute;top:100px;right:10px;mid-width:50px;color:black;" primary><i class="far fa-edit"></i></el-button>
       
       <div id="Profile">
         <h1>
           {{info.username}}
         </h1>
+        <el-button @click="userFollow" v-show="!followed" style="padding:13px 13px;font-size: 17px;position:absolute;top:410px;right:225px;mid-width:50px;">Follow</el-button>
+        <el-button @click="unfollow" v-show="followed" style="color:#369DD7;font-size:15px;border-color:#369DD7;padding:13px 13px;position:absolute;top:410px;right:225px;mid-width:50px;">Unfollow</el-button>
         
         <div id="info">
           <p>
@@ -143,6 +145,7 @@ export default {
       modalWidth: MODAL_WIDTH,
       info : null,
       file:[],
+      followed: null,
         
       }
   },
@@ -180,6 +183,27 @@ export default {
       }).then(response => {
         return alert('Changes Saved'), location.reload()
       })
+    },
+    async userFollow() {
+      let user_id = await axios.get(`/profile/user`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+         }
+        })
+        let follower = user_id.data.username
+        console.log(this.info.id)
+        await axios.post(`/profile/${this.$route.params.id}`, {'user_username':follower, 'user_id': this.info.id}).then(response => {
+          this.followed = true
+          return location.reload()
+         
+       })
+      // await async.post(`/profile/${this.$route.params.id}`, ).then(reponse => {
+        
+      // })
+      
+    },
+    async unfollow() {
+      await axios.delete(`/profile/${this.$route.params.id}`)
     }
 
   },
@@ -243,7 +267,7 @@ h1 {
   height: 110px;
   width: 110px;
   left: 0px;
-  top:265px;
+  top:216px;
   margin-left:10px;
   border:3px solid white
 
@@ -262,19 +286,6 @@ img {
     padding: 3px;  
 
                         
-}
-
-
-button {
-  padding: 0;
-border-radius: 40px;
-
-border-color: #369DD7;
-    &:hover {
-      color:#369DD7;
-      background: #369DD7;
-      border-color: #369DD7;
-    }
 }
 
 
