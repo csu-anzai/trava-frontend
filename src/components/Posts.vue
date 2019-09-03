@@ -113,6 +113,7 @@
     </div>
 <div class="post" :key="index" v-for="(item, index) in postInfo">
   <b-card :title="item.day" style="max-width: 30rem;" class="mb-2" id="card">
+    {{ownerinfo.avatar}}{{ownerinfo.username}}
          <img :src="item.pictures">
      <span>{{dateFormat(item.date)}}</span>
               <div class="editpost" v-if="owner">
@@ -180,6 +181,7 @@ export default {
           ],
       postInfo: null,
       ownerid: null,
+      ownerinfo:null,
       userId: null,
     }
   },
@@ -190,6 +192,7 @@ export default {
   },
   created () {
     this.getInfo()
+    this.getOwner()
     this.loginCheck()
     this.modalWidth = window.innerWidth < MODAL_WIDTH
       ? MODAL_WIDTH / 2
@@ -209,7 +212,11 @@ export default {
          return this.postInfo
         })
     },
-
+    async getOwner(){
+      axios.get(`/profile/${localStorage.getItem('username')}`).then(response => {
+        this.ownerinfo = response.data
+      })
+    },
     upload(err, file) {
         let image = JSON.parse(file.serverId)
         this.postForm.pictures = image.url

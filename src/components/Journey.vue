@@ -162,6 +162,7 @@ export default {
       }
         },
         filteredList() {
+          try {
       return this.array.filter(item => {
         let title = item.title.toLowerCase().includes(this.search.toLowerCase())
         let budget = item.budget.toLowerCase().includes(this.search.toLowerCase())
@@ -171,8 +172,10 @@ export default {
           } else if (budget) {
             return budget
           }
-
         })
+          } catch (err) {
+            console.log(err);
+          }
   },
   },
 
@@ -213,7 +216,7 @@ export default {
         })
     },
     profile(){
-      this.$router.push('/profile/user')
+      this.$router.push('/myprofile')
     },
     home(){
       this.$router.push('/')
