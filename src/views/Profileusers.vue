@@ -100,6 +100,7 @@ export default {
         this.$router.push('/myprofile')
       }
     },
+
     async editForm() {
        this.$modal.show('edit')
     },
@@ -147,8 +148,10 @@ export default {
   created(){
     this.check()
     this.get()
-  }
 }
+}
+
+
 </script>
 
 <style scoped lang="scss">
