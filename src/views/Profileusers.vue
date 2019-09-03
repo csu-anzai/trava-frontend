@@ -7,11 +7,15 @@
         <img id="Cover" :src="info.cover">
         <img id="Avatar" :src="info.avatar">
         </div>
+
+
       
       <div id="Profile">
         <h1>
           {{info.username}}
         </h1>
+        <el-button @click="userFollow" v-show="!followed" style="padding:13px 13px;font-size: 17px;position:absolute;top:410px;right:225px;mid-width:50px;">Follow</el-button>
+        <el-button @click="unfollow" v-show="followed" style="color:#369DD7;font-size:15px;border-color:#369DD7;padding:13px 13px;position:absolute;top:410px;right:225px;mid-width:50px;">Unfollow</el-button>
         
         <div id="info">
           <p>
@@ -72,6 +76,10 @@ export default {
   data(){
     return {
       info : null,
+      file:[],
+      followed: null,
+        
+
       }
   },
   methods: {
@@ -91,6 +99,49 @@ export default {
       if(this.$router.currentRoute.params.id == localStorage.getItem('username')){
         this.$router.push('/myprofile')
       }
+
+    async editForm() {
+       this.$modal.show('edit')
+    },
+    uploadAvatar(err, file) {
+        let image = JSON.parse(file.serverId)
+        console.log(image.url)
+        this.info.avatar = image.url
+    },
+     uploadCover(err, file) {
+        let image = JSON.parse(file.serverId)
+        this.info.cover = image.url
+    },
+    async editProfile() {
+      axios.put(`/profile/${this.info.id}`, {
+        "cover": this.info.cover,
+        "avatar": this.info.avatar,
+        "about": this.info.about
+      }).then(response => {
+        return alert('Changes Saved'), location.reload()
+      })
+    },
+    async userFollow() {
+      let user_id = await axios.get(`/profile/user`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+         }
+        })
+        let follower = user_id.data.username
+        console.log(this.info.id)
+        await axios.post(`/profile/${this.$route.params.id}`, {'user_username':follower, 'user_id': this.info.id}).then(response => {
+          this.followed = true
+          return location.reload()
+         
+       })
+      // await async.post(`/profile/${this.$route.params.id}`, ).then(reponse => {
+        
+      // })
+      
+    },
+    async unfollow() {
+      await axios.delete(`/profile/${this.$route.params.id}`)
+
     }
   },
   created(){
@@ -151,7 +202,7 @@ h1 {
   height: 110px;
   width: 110px;
   left: 0px;
-  top:265px;
+  top:216px;
   margin-left:10px;
   border:3px solid white
 
