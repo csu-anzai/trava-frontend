@@ -61,7 +61,7 @@
   <!-- === Modal Ends === -->
 
 
-<div class="post" :key="index" v-for="(item, index) in array">
+<div class="post" :key="index+10" v-for="(item, index) in array">
 
     </div>
 

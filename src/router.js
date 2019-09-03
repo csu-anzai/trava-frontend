@@ -5,7 +5,6 @@ import Posts from './components/Posts.vue'
 import Signup from './components/Signup'
 import Profile from './views/Profile'
 import Login from './components/Login'
-import UserJourney from './components/UserJourney'
 import Follower from './components/Follower'
 import Profileusers from './views/Profileusers'
 
@@ -25,11 +24,6 @@ export default new Router({
       path: '/journeys',
       name: 'journey',
       component: Journey
-    },
-    {
-      path: '/:user_id/journeys',
-      name: 'userjourney',
-      component: UserJourney
     },
     {
       path: '/:user_id/journeys/:id',
