@@ -14,8 +14,8 @@
         <h1>
           {{info.username}}
         </h1>
-        <el-button @click="userFollow" v-show="!followed" style="padding:13px 13px;font-size: 17px;position:absolute;top:410px;right:225px;mid-width:50px;">Follow</el-button>
-        <el-button @click="unfollow" v-show="followed" style="color:#369DD7;font-size:15px;border-color:#369DD7;padding:13px 13px;position:absolute;top:410px;right:225px;mid-width:50px;">Unfollow</el-button>
+
+        <el-button @click="follow">FOLLOW</el-button>
         
         <div id="info">
           <p>
@@ -78,8 +78,6 @@ export default {
       info : null,
       file:[],
       followed: null,
-        
-
       }
   },
   methods: {
@@ -87,7 +85,6 @@ export default {
       axios.get(`/profile/${this.$router.currentRoute.params.id}`).then(response => {
         this.info = response.data
         })
-
     },
     dateFormat (date) {
       return moment(String(date)).format('D MMMM YYYY')
@@ -122,27 +119,10 @@ export default {
         return alert('Changes Saved'), location.reload()
       })
     },
-    async userFollow() {
-      let user_id = await axios.get(`/profile/user`, {
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('token')
-         }
-        })
-        let follower = user_id.data.username
-        console.log(this.info.id)
-        await axios.post(`/profile/${this.$route.params.id}`, {'user_username':follower, 'user_id': this.info.id}).then(response => {
-          this.followed = true
-          return location.reload()
-         
-       })
-      // await async.post(`/profile/${this.$route.params.id}`, ).then(reponse => {
-        
-      // })
-      
-    },
-    async unfollow() {
-      await axios.delete(`/profile/${this.$route.params.id}`)
-
+    async follow() {
+      axios.post(`/profile/${this.$router.currentRoute.params.id}`,{'follower_id': localStorage.getItem('id'),'user_id':this.info.id}).then(response => {
+        console.log(response.data)
+      })
     }
   },
   created(){
