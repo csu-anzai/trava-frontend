@@ -7,7 +7,6 @@
         <img id="Cover" :src="info.cover">
         <img id="Avatar" :src="info.avatar">
         </div>
-<el-button icon="far fa-edit" @click="editForm" style="font-size: 30px;position:absolute;top:140px;right:10px;mid-width:200px;color:black;" primary></el-button>
       
       <div id="Profile">
         <h1>
@@ -56,101 +55,29 @@
         </div>
       </el-button>
     </div>
-    <modal scrollable name="edit" transition="pop-out" :width="modalWidth" :adaptive=true height="auto">
-      <div class="box">
-    <div class="box-part" id="bp-left">
-      <div class="partition" id="partition-register">
-        <div class="partition-title">Edit post</div>
-        <div class="partition-form">
-          <el-form>
-            <el-form-item label="About">
-              <el-input v-model="info.about" placeholder="About yourself"></el-input>
-            </el-form-item>
-            <el-form-item label="Cover image">
- <file-pond
-        name="image"
-        label-idle="Select/drop files here..."
-        allow-multiple="true"
-        accepted-file-types="image/jpeg, image/png"
-        v-bind:files="file"
-        server="https://63ecca8f.ap.ngrok.io/upload"
-        :onprocessfile="uploadCover"
-     />        
-     </el-form-item>
-       <el-form-item label="Avatar">
- <file-pond
-        name="image"
-        label-idle="Select/drop files here..."
-        allow-multiple="true"
-        accepted-file-types="image/jpeg, image/png"
-        v-bind:files="file"
-        server="https://63ecca8f.ap.ngrok.io/upload"
-        :onprocessfile="uploadAvatar"
-     />        
-     </el-form-item>
-
-     <div class="button-set">
-            <el-button @click="editProfile" class="createButton">Save Changes</el-button>
-          </div>
-          </el-form>
-          
-          
-
-          <div style="margin-top: 42px">
-          </div>
-
-         
-
-        </div>
-      </div>
-    </div>
-    <div class="box-part" id="bp-right">
-      <div class="box-messages">
-      </div>
-    </div>
-  </div>
-    </modal>
   
   </div>
 </template>
 
 <script>
-import moment from 'moment'
 import Posts from '@/components/JCard.vue'
 const axios = require('axios')
-import { create } from 'domain';
-import { userInfo } from 'os';
-import vueFilePond, { setOptions } from 'vue-filepond';
-import 'filepond/dist/filepond.min.css';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview'; 
-import { send } from 'q';
-
-const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview);
-const MODAL_WIDTH = 656
 import fab from 'vue-fab'
 
 
 export default {
   name: 'profile',
   components: {
-    FilePond
   },
   data(){
     return {
-      scrollable: true,
-      modalWidth: MODAL_WIDTH,
       info : null,
-      file:[],
-        
       }
   },
   methods: {
     async get(){
       axios.get(`/profile/${this.$router.currentRoute.params.id}`).then(response => {
         this.info = response.data
-        console.log(response.data)
         })
 
     },
@@ -160,34 +87,9 @@ export default {
     getPosts(user_id,id){
       this.$router.push({path:`/${user_id}/journeys/${id}`})
     },
-    async editForm() {
-       this.$modal.show('edit')
-    },
-    uploadAvatar(err, file) {
-        let image = JSON.parse(file.serverId)
-        console.log(image.url)
-        this.info.avatar = image.url
-    },
-     uploadCover(err, file) {
-        let image = JSON.parse(file.serverId)
-        this.info.cover = image.url
-    },
-    async editProfile() {
-      axios.put(`/profile/${this.info.id}`, {
-        "cover": this.info.cover,
-        "avatar": this.info.avatar,
-        "about": this.info.about
-      }).then(response => {
-        return alert('Changes Saved'), location.reload()
-      })
-    }
-
   },
   created(){
     this.get()
-    this.modalWidth = window.innerWidth < MODAL_WIDTH
-      ? MODAL_WIDTH / 2
-      : MODAL_WIDTH
   }
 }
 </script>
@@ -264,21 +166,6 @@ img {
                         
 }
 
-
-button {
-  padding: 0;
-border-radius: 40px;
-
-border-color: #369DD7;
-    &:hover {
-      color:#369DD7;
-      background: #369DD7;
-      border-color: #369DD7;
-    }
-}
-
-
-
 .card-trip {
   overflow: hidden;
   background: white;
@@ -323,6 +210,7 @@ border-color: #369DD7;
 $background_color: #404142;
 $github_color: #DBA226;
 $facebook_color: #3880FF;
+
 .box {
   background: white;
   overflow: hidden;
