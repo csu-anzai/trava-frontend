@@ -22,12 +22,12 @@
           <p>
             {{info.followers.length}}<br>
             Followers
-          </p><br>
+          </p>
 
           <p>
-
+            {{folnum}}<br>
             Followings
-          </p><br>
+          </p>
 
           <p>
             {{info.journeys.length}}<br>
@@ -65,7 +65,6 @@
 </template>
 
 <script>
-import Posts from '@/components/JCard.vue'
 const axios = require('axios')
 import fab from 'vue-fab'
 import { async } from 'q';
@@ -81,6 +80,7 @@ export default {
       file:[],
       followed: null,
       followinguser: null,
+      folnum: null,
       }
   },
   methods: {
@@ -99,6 +99,8 @@ export default {
     
       if(this.$router.currentRoute.params.id == localStorage.getItem('username')){
         this.$router.push('/myprofile')
+      } else {
+        this.$router.push(`/login`)
       }
     },
 
@@ -148,12 +150,18 @@ export default {
           this.followed = true
         }
       })
+    },
+    async following() {
+      let user = await axios.get(`/profile/${this.$router.currentRoute.params.id}`)
+      let num = await axios.get(`/following/${user.data.id}`)
+      this.folnum = num.data.length
     }
   },
   created(){
     this.get()
     this.check()
     this.isfollow()
+    this.following()
 }
 }
 

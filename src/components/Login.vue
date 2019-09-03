@@ -71,6 +71,13 @@ export default {
       this.$router.push(`/profile/${this.username}`)
       location.reload()
     },
+    check(){
+      if (localStorage.getItem('token')) {
+        console.log('Logged In');
+      } else {
+        this.$router.push(`/login`)
+      }
+    }
   },
 
 }

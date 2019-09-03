@@ -122,11 +122,11 @@
    ></fab>
 
     </div>
-    <div >
+    
       
-    <el-button id="profbutton" @click="navigateUserProfile"><img id="profimage" :src="ownerinfo.avatar" style="width:50px;border-radius:50px;height:50px"> {{ownerinfo.username}}</el-button>
+    <el-button v-if="!owner" id="profbutton" @click="navigateUserProfile"><img id="profimage" :src="ownerinfo.avatar" style="width:50px;border-radius:50px;height:50px"> {{ownerinfo.username}}</el-button>
       
-    </div>
+    
 <div class="post" :key="index" v-for="(item, index) in postInfo">
   <b-card :title="item.day" style="max-width: 30rem;" class="mb-2" id="card">
          <img :src="item.pictures">
@@ -280,14 +280,7 @@ export default {
     },
     async findPost() {
       axios.get(`/${this.$route.params.user_id}/journeys/${this.$route.params.id}/${this.postId}`).then(response => {
-        this.postId = response.data
-        for(let i in this.postId){
-         let id = this.postId[i].id
-         console.log(response.data)
-         return this.postId
-        }
-
-        
+        this.postId = response.data  
       })
     },
     loginCheck(){
