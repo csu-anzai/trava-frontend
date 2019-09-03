@@ -26,7 +26,7 @@
         allow-multiple="false"
         accepted-file-types="image/jpeg, image/png"
         v-bind:files="file"
-        server="http://127.0.0.1:3333/upload"
+        server="https://50aff656.ap.ngrok.io/upload"
         :onprocessfile="upload"
      />        
      <div class="button-set">
@@ -75,7 +75,7 @@
         allow-multiple="true"
         accepted-file-types="image/jpeg, image/png"
         v-bind:files="file"
-        server="http://127.0.0.1:3333/upload"
+        server="https://50aff656.ap.ngrok.io/upload"
         :onprocessfile="upload"
      />        
      <div class="button-set">
@@ -124,7 +124,7 @@
     </div>
 <div class="post" :key="index" v-for="(item, index) in postInfo">
   <b-card :title="item.day" style="max-width: 30rem;" class="mb-2" id="card">
-    {{ownerinfo.avatar}}<span @click="navigateUserProfile">{{item.username}}</span>
+    {{ownerinfo.avatar}}<span @click="navigateUserProfile">{{postInfo.username}}</span>
          <img :src="item.pictures">
      <span>{{dateFormat(item.date)}}</span>
               <div class="editpost" v-if="owner">
@@ -222,7 +222,6 @@ export default {
   created () {
     this.getInfo()
     this.getOwner()
-    this.getPostOwner()
     this.loginCheck()
     this.modalWidth = window.innerWidth < MODAL_WIDTH
       ? MODAL_WIDTH / 2
@@ -245,13 +244,13 @@ export default {
     },
     async getOwner(){
       axios.get(`/profile/${localStorage.getItem('id')}`).then(response => {
-        this.postInfo = response.data
+        this.ownerinfo = response.data
         console.log(response.data.username)
       })
     },
     async getPostOwner(){
       axios.get(`/profile/${this.$route.params.user_id}`).then(response => {
-        this.ownerinfo = response.data
+        this.postInfo = response.data.username
       })
     },
    
