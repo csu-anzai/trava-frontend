@@ -26,7 +26,7 @@
         allow-multiple="true"
         accepted-file-types="image/jpeg, image/png"
         v-bind:files="file"
-        server="https://92a4e89c.ap.ngrok.io/upload"
+        server="https://63ecca8f.ap.ngrok.io/upload"
         :onprocessfile="upload"
      />        
      <div class="button-set">
@@ -99,15 +99,16 @@
     </div>
   </div>
     </modal>
-    <div class="addpost" v-if="this.login == true">
- <fab
+   
+    <div class="addpost" v-if="this.login == true && owner">
+  <fab
    :position="position"
    :bg-color="bgColor"
    :actions="fabActions"
    @Add="formAccess"
     v-bind:files="file"
    :onaddfile="upload" 
-></fab>
+   ></fab>
 
     </div>
 <div class="post" :key="index" v-for="(item, index) in postInfo">
@@ -189,6 +190,7 @@ export default {
   },
   created () {
     this.getInfo()
+    this.loginCheck()
     this.modalWidth = window.innerWidth < MODAL_WIDTH
       ? MODAL_WIDTH / 2
       : MODAL_WIDTH
@@ -235,6 +237,13 @@ export default {
 
         
       })
+    },
+    loginCheck(){
+      if (localStorage.getItem('token')) {
+        this.login = true
+      } else {
+        this.login = false
+      }
     },
      async editPost(item) {
        this.postForm = { ...this.postForm, ...item }
@@ -456,10 +465,7 @@ body {
     margin-bottom: 70px;
 
 }
-.post-wrapper {
-  margin-bottom: 70px;
 
-}
 img {
   border-radius: 10px;
   width: 100%;

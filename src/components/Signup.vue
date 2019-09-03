@@ -88,7 +88,7 @@ export default {
     },
 
     async byPass() {
-      return await axios.post('http://127.0.0.1:3333/register',{'username' : this.username,
+      return await axios.post('/register',{'username' : this.username,
       'email' : this.email,
       'password':this.password,
       'cover':this.cover,
