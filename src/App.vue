@@ -7,8 +7,7 @@
       <a v-if="this.login == true" @click="logout" href="/">Logout</a>
 
       <div>
-        <img src="https://res.cloudinary.com/champmar/image/upload/v1567141363/customLogo_uuyspo.png" style="width : 143px; height : 41px">
-
+        <a href="/"><img src="https://res.cloudinary.com/champmar/image/upload/v1567141363/customLogo_uuyspo.png" style="width : 143px; height : 41px"></a>
       </div>
     </div>
 
