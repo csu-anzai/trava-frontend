@@ -52,7 +52,7 @@ Vue.filter('formatDate', function(value) {
 
 Vue.use(require('vue-moment'));
 
-axios.defaults.baseURL = 'http://50aff656.ap.ngrok.io'
+axios.defaults.baseURL = 'http://127.0.0.1:3333'
  
 Vue.use(ElementUI)
 Vue.use(VueAxios, axios)

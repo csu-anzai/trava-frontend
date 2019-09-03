@@ -122,13 +122,16 @@
    ></fab>
 
     </div>
+    <div >
+      
+    <el-button id="profbutton" @click="navigateUserProfile"><img id="profimage" :src="ownerinfo.avatar" style="width:50px;border-radius:50px;height:50px"> {{ownerinfo.username}}</el-button>
+      
+    </div>
 <div class="post" :key="index" v-for="(item, index) in postInfo">
   <b-card :title="item.day" style="max-width: 30rem;" class="mb-2" id="card">
-    {{ownerinfo.avatar}}<span @click="navigateUserProfile">{{postInfo.username}}</span>
          <img :src="item.pictures">
      <span>{{dateFormat(item.date)}}</span>
               <div class="editpost" v-if="owner">
-
           <el-button @click="editPost(item)" style=" position:absolute;top:0;right:10px; mid-width:20px"><i class="far fa-edit"></i></el-button>
               </div>
      <b-card-text><strong>Budget: </strong>{{item.budget}}</b-card-text>
@@ -212,6 +215,7 @@ export default {
       ownerid: null,
       ownerinfo:null,
       userId: null,
+      userName: null,
     }
   },
   computed: {
@@ -243,14 +247,14 @@ export default {
         })
     },
     async getOwner(){
-      axios.get(`/profile/${localStorage.getItem('id')}`).then(response => {
-        this.ownerinfo = response.data
-        console.log(response.data.username)
+      axios.get(`/profile/${this.$route.params.user_id}`).then(response => {
+        return this.ownerinfo = response.data
       })
     },
     async getPostOwner(){
       axios.get(`/profile/${this.$route.params.user_id}`).then(response => {
-        this.postInfo = response.data.username
+        this.userName = response.data.username
+        
       })
     },
    
@@ -364,6 +368,17 @@ a {
   position: relative;  
     margin: 3px;
     padding: 3px;  
+           
+}
+
+#profbutton {
+  display: flex;
+  align-items: flex-start;
+    margin: 3px;
+    padding: 3px;  
+    width: 99%;
+    border-radius: 5px;
+    border-color: #369DD7;
            
 }
 .createButton {
