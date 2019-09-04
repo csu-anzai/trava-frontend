@@ -51,9 +51,6 @@ export default {
       localStorage.removeItem('id');
       return location.reload()
     },
-    login(){
-      return this.$router.push(`/login`)
-    }
     
   },
   created(){
