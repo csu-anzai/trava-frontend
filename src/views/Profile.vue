@@ -32,8 +32,8 @@
             {{info.journeys.length}}<br>
             Journeys
           </p>
-
           <div id="bio">
+            <el-divider content-position="left">About me</el-divider>
             {{info.about}}
           </div>
         </div>
@@ -218,9 +218,17 @@ export default {
         "avatar": this.info.avatar,
         "about": this.info.about
       }).then(response => {
-        return alert('Changes Saved'), location.reload()
+        return this.open()
       })
     },
+    open() {
+        const h = this.$createElement;
+
+        this.$notify({
+          title: `Updated !`,
+          message: h('i', { style: 'color: teal' }, 'Your changes is saved')})
+      },
+
     loginCheck(){
       if (localStorage.getItem('token')) {
         this.login = true
