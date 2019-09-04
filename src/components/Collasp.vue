@@ -1,4 +1,5 @@
-<template><div>
+<template>
+<div>
     <i class="el-icon-d-arrow-left" @click="back"></i>
     <div :key="index" v-for="(item, index) in postInfo">
         <div>
