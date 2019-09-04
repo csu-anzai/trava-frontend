@@ -14,7 +14,6 @@
         <h1>
           {{info.username}}
         </h1>
-     
         <el-button style="display: flex;border-color:#369DD7;color:#369DD7;margin-left:15px" v-show="!this.followed" @click="follow">FOLLOW</el-button>
         <el-button style="display: flex;border-color:red;color:red;margin-left:10px" v-show="(this.followed)" @click="unfollow">UNFOLLOW</el-button>
         <div id="info">
@@ -33,6 +32,7 @@
             Journeys
           </p>
           <div id="bio">
+            <el-divider content-position="left">About me</el-divider>
             {{info.about}}
           </div>
         </div>
@@ -53,10 +53,17 @@
               </div>
               <h2 class="card-trip-pricing">{{item.budget}}</h2>
             </div>
-
         </div>
       </el-button>
     </div>
+     <fab
+   :position="position"
+   :bg-color="bgColor"
+   :actions="fabActions"
+   @Home="navigateHome"
+   @Profile="profile"
+    v-bind:files="file"
+   ></fab>
   
   </div>
 </template>
@@ -70,6 +77,7 @@ import { async } from 'q';
 export default {
   name: 'profile',
   components: {
+    fab,
   },
   data(){
     return {
@@ -78,19 +86,42 @@ export default {
       followed: null,
       followinguser: null,
       folnum: null,
+      position: 'bottom-right',
+            bgColor: '#369DD7',
+          fabActions: [
+              {
+                name: 'Home',
+                title: 'Home',
+                icon: 'home'
+              },
+               {
+                name: 'Profile',
+                title: 'My Profile',
+                icon: 'account_box'
+              },
+              
+
+          ]
       }
   },
+  
   methods: {
     async get(){
       axios.get(`/profile/${this.$router.currentRoute.params.id}`).then(response => {
         this.info = response.data
         })
     },
+    navigateHome(){
+      this.$router.push({path:`/`})
+    },
+    
     dateFormat (date) {
       return moment(String(date)).format('D MMMM YYYY')
     },
-    getPosts(user_id,id){
-      this.$router.push({path:`/${user_id}/journeys/${id}`})
+    async getPosts(user_id,id){
+      let user = await axios.get(`/profile/find/${user_id}`)
+      let username = user.data.username
+      return this.$router.push({path:`/${username}/journeys/${id}`})
     },
     async check(){
     
@@ -134,6 +165,9 @@ export default {
         }})
       .then(response => {})
       location.reload()
+    },
+     profile(){
+      this.$router.push('/myprofile')
     },
     async isfollow() {
 
@@ -216,7 +250,7 @@ h1 {
   height: 110px;
   width: 110px;
   left: 0px;
-  top:216px;
+  top:190px;
   margin-left:10px;
   border:3px solid white
 
