@@ -23,8 +23,8 @@
           </p><br>
 
           <p>
-            <span v-if="followinguser.length == null">0</span>
-            {{followinguser.length}}<br>
+            <span v-if="followinguser == null">0</span>
+            {{followinguser}}<br>
             Followings
           </p><br>
 
@@ -230,8 +230,8 @@ export default {
       }
     },
     async following() {
-      let following = await axios.get(`/followers/${localStorage.getItem('id')}`)
-      this.followinguser.push(following.data.user_id)
+      let following = await axios.get(`/following/${localStorage.getItem('id')}`)
+      this.followinguser = following.data.length
 
     }
   },
