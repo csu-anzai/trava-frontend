@@ -123,9 +123,10 @@
 
     </div>
     <div >
-      
+    <div class="editpost" v-if="!owner">
+ 
     <el-button id="profbutton" @click="navigateUserProfile"><img id="profimage" :src="ownerinfo.avatar" style="width:50px;border-radius:50px;height:50px"> {{ownerinfo.username}}</el-button>
-      
+    </div>
     </div>
 <div class="post" :key="index" v-for="(item, index) in postInfo">
   <b-card :title="item.day" style="max-width: 30rem;" class="mb-2" id="card">
