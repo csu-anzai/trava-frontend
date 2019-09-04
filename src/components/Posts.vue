@@ -141,7 +141,8 @@
               </div>
     <div style="display : flex ; justify-content : space-between; padding: 10px ">
            <b-card-text><strong>{{item.day}}</strong></b-card-text>
-           <br><b-card-text><strong>Budget: <small>{{item.budget}}</small></strong></b-card-text>
+           <br><b-card-text v-if="item.budget == !null">
+             <strong>Budget: <small>{{item.budget}}</small></strong></b-card-text>
            <div id="date">
      <b-card-text><small>{{dateFormat(item.date)}}</small></b-card-text>
            </div>
