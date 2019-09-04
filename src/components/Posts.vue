@@ -122,11 +122,13 @@
    ></fab>
 
     </div>
+
     
       
     <el-button v-if="!owner" id="profbutton" @click="navigateUserProfile"><img id="profimage" :src="ownerinfo.avatar" style="width:50px;border-radius:50px;height:50px"> {{ownerinfo.username}}</el-button>
       
     
+
 <div class="post" :key="index" v-for="(item, index) in postInfo">
   <b-card :title="item.day" style="max-width: 30rem;" class="mb-2" id="card">
          <img :src="item.pictures">
