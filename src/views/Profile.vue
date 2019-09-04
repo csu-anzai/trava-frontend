@@ -232,7 +232,7 @@ export default {
     async following() {
       let following = await axios.get(`/following/${localStorage.getItem('id')}`)
       this.followinguser = following.data.length
-
+      //Master
     }
   },
   created(){
