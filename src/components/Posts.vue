@@ -1,5 +1,6 @@
 <template>
 <div class="post-wrapper">
+
   <div class="posts">
     <modal name="form" transition="pop-out" :width="modalWidth" :adaptive=true height="auto">
       <div class="box">
@@ -103,6 +104,7 @@
    :position="position"
    :bg-color="bgColor"
    :actions="fabActionsNotLogged"
+   @Collasp="collasp"
    @Home="navigateHome"
    @Profile="navigateProfile"
     v-bind:files="file"
@@ -114,6 +116,7 @@
    :position="position"
    :bg-color="bgColor"
    :actions="fabActions"
+   @Collasp="collasp"
    @Add="formAccess"
    @Home="navigateHome"
    @Profile="navigateProfile"
@@ -126,7 +129,6 @@
     
       
     <el-button v-if="!owner" id="profbutton" @click="navigateUserProfile"><img id="profimage" :src="ownerinfo.avatar" style="width:50px;border-radius:50px;height:50px"> {{ownerinfo.username}}</el-button>
-      
     
 
 <div class="post" :key="index" v-for="(item, index) in postInfo">
@@ -205,6 +207,9 @@ export default {
               {
                name: 'Profile',
                   icon: 'account_box'
+              },{
+               name: 'Collasp',
+                  icon: 'view_module'
               },
           ],
           fabActionsNotLogged: [
@@ -215,6 +220,9 @@ export default {
               {
                name: 'Profile',
                   icon: 'account_box'
+              },{
+               name: 'Collasp',
+                  icon: 'view_module'
               },
           ],
       postInfo: null,
@@ -270,6 +278,9 @@ export default {
     },
      navigateUserProfile(){
       this.$router.push({path:`/profile/${this.$route.params.user_id}`})
+    },
+    collasp(){
+      this.$router.push(`/${this.$route.params.user_id}/journeys/${this.$route.params.id}/collasp`)
     },
     async addPost() {
 
