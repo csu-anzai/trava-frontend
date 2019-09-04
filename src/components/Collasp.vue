@@ -11,11 +11,14 @@
    :bg-color="bgColor"
    :actions="fabActions"
    @Back="back"
+   @Home="navigateHome"
+   @profile="navigateProfile"
     v-bind:files="file"
    ></fab>
 
 
-</div></template>
+</div>
+</template>
 
 <script>
 import fab from 'vue-fab'
@@ -32,9 +35,18 @@ export default {
           position: 'bottom-right',
           fabActions: [
               {
+                  name: 'Home',
+                  icon: 'home'
+              },
+              {
+                  name: 'Profile',
+                  icon: 'account_box'
+              },
+              {
                   name: 'Back',
                   icon: 'reply'
-              }],
+              }
+              ],
               file: []
         }
     },
@@ -47,6 +59,12 @@ export default {
                 return this.postInfo
                 })
         },
+        navigateHome(){
+      this.$router.push({path:`/`})
+    },
+     navigateProfile(){
+      this.$router.push({path:`/myprofile`})
+    },
         back(){
             this.$router.push({path:`/${this.$route.params.user_id}/journeys/${this.$route.params.id}`})
         }
@@ -62,6 +80,6 @@ export default {
     position: relative;  
     margin: 1px;
     padding: 1px;
-    width: 500px
+    width: 99.5%
 }
 </style>

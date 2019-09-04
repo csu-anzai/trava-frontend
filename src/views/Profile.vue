@@ -230,15 +230,15 @@ export default {
         "avatar": this.info.avatar,
         "about": this.info.about
       }).then(response => {
-        return this.open()
+        return this.open(), this.$modal.hide('edit');
       })
     },
     open() {
         const h = this.$createElement;
 
         this.$notify({
-          title: `Updated !`,
-          message: h('i', { style: 'color: teal' }, 'Your changes is saved')})
+          title: `Updated!`,
+          message: h('i', { style: 'color: teal' }, 'Your changes have been saved')})
       },
 
     loginCheck(){

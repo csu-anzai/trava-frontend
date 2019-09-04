@@ -57,8 +57,12 @@ export default {
       this.get()
 
     },
-    post() {
-      return axios.post('/login',{'username':this.username,'password':this.password})
+    async post() {
+      try{
+  return await axios.post('/login',{'username':this.username,'password':this.password})
+      }catch(error){
+        return alert('Invalid Login credentials')
+      }
 
     }, 
     
