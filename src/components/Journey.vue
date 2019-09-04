@@ -79,7 +79,7 @@
     </div>
 
       <div :key="index" v-for="(item, index) in filteredList" class="journeyBox" @click="getPosts(item.user_id, item.id)">
-             
+        
         <span><strong>{{item.title}}</strong></span>
         <img :src="item.cover">
 
@@ -181,22 +181,6 @@ export default {
    upload(err, file) {
      let image = JSON.parse(file.serverId)
      this.thumbs = image.url
-      //   const formData = new FormData();
-
-      
-      // formData.append('file', file[0]);
-      // formData.append('upload_preset', this.cloudinary.uploadPreset);
-      // formData.append('tags', 'gs-vue,gs-vue-uploaded');
-      
-
-
-      // for(var pair of formData.entries()) {
-      //   console.log(pair[0]+', '+pair[1]);
-      // }
-      // console.log(file)
-      // axios.post(this.clUrl, formData).then(res => {
-      //   this.thumbs = res.data.secure_url
-      // })
     },
   hide () {
     this.$modal.hide('hello-world');
@@ -204,12 +188,6 @@ export default {
     async getInfo(){
       await axios.get('/journeys').then(response => {
         this.array = response.data
-
-        for(let i in this.array){
-         let user_id = this.array[i].user_id
-         let id = this.array[i].id
-        return this.array
-        }
         })
     },
     profile(){
@@ -219,7 +197,9 @@ export default {
       this.$router.push('/')
     },
     async getPosts(user_id,id){
-        return this.$router.push({path:`/${user_id}/journeys/${id}`})
+      let user = await axios.get(`/profile/find/${user_id}`)
+      let username = user.data.username
+      return this.$router.push({path:`/${username}/journeys/${id}`})
     },
       formAccess(){
       this.$modal.show('form');      

@@ -23,7 +23,8 @@
           </p><br>
 
           <p>
-            {{info.followers.length}}<br>
+            <span v-if="followinguser.length == null">0</span>
+            {{followinguser.length}}<br>
             Followings
           </p><br>
 
@@ -129,7 +130,6 @@
 
 <script>
 import moment from 'moment'
-import Posts from '@/components/JCard.vue'
 const axios = require('axios')
 import { create } from 'domain';
 import { userInfo } from 'os';
@@ -157,7 +157,7 @@ export default {
       modalWidth: MODAL_WIDTH,
       info : null,
       file:[],
-
+      followinguser:[],
       followed: false,
       login: false,
       position: 'bottom-right',
@@ -193,8 +193,10 @@ export default {
     dateFormat (date) {
       return moment(String(date)).format('D MMMM YYYY')
     },
-    getPosts(user_id,id){
-      this.$router.push({path:`/${user_id}/journeys/${id}`})
+    async getPosts(user_id,id){
+      let user = await axios.get(`/profile/find/${user_id}`)
+      let username = user.data.username
+      return this.$router.push({path:`/${username}/journeys/${id}`})
     },
     navigateHome(){
       this.$router.push({path:`/`})
@@ -224,11 +226,18 @@ export default {
         this.login = true
       } else {
         this.login = false
+        this.$router.push(`/login`)
       }
+    },
+    async following() {
+      let following = await axios.get(`/followers/${localStorage.getItem('id')}`)
+      this.followinguser.push(following.data.user_id)
+
     }
   },
   created(){
     this.get()
+    this.following()
     this.loginCheck()
     this.modalWidth = window.innerWidth < MODAL_WIDTH
       ? MODAL_WIDTH / 2

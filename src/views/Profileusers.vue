@@ -4,7 +4,7 @@
     <div class="profile-container">
       <div id="headers">
         
-        <img id="Cover" :src="info.cover">
+        <img id="Cover"  :src="info.cover">
         <img id="Avatar" :src="info.avatar">
         </div>
 
@@ -22,13 +22,12 @@
           <p>
             {{info.followers.length}}<br>
             Followers
-          </p><br>
+          </p>
 
           <p>
-            <span v-if="followinguser.length == null">0</span>
-            {{followinguser.length}}<br>
+            {{folnum}}<br>
             Followings
-          </p><br>
+          </p>
 
           <p>
             {{info.journeys.length}}<br>
@@ -66,7 +65,6 @@
 </template>
 
 <script>
-import Posts from '@/components/JCard.vue'
 const axios = require('axios')
 import fab from 'vue-fab'
 import { async } from 'q';
@@ -82,6 +80,7 @@ export default {
       file:[],
       followed: null,
       followinguser: null,
+      folnum: null,
       }
   },
   methods: {
@@ -97,12 +96,11 @@ export default {
       this.$router.push({path:`/${user_id}/journeys/${id}`})
     },
     async check(){
-      let res = await axios.get(`http://127.0.0.1:3333/followers/${localStorage.getItem('id')}`)
-      let id = res.data.follower_id
+    
       if(this.$router.currentRoute.params.id == localStorage.getItem('username')){
         this.$router.push('/myprofile')
-      } else if (localStorage.getItem('id') == id) {
-        this.followed = true
+      } else {
+        this.$router.push(`/login`)
       }
     },
 
@@ -142,15 +140,28 @@ export default {
       .then(response => {})
       location.reload()
     },
+    async isfollow() {
+
+      let user = await axios.get(`/profile/${this.$router.currentRoute.params.id}`)
+
+      let res = await axios.get(`http://127.0.0.1:3333/followers`)
+      let self = res.data.forEach(item => {
+        if (item.follower_id == localStorage.getItem('id') && item.user_id == user.data.id) {
+          this.followed = true
+        }
+      })
+    },
     async following() {
-      let following = await axios.get(`/followers/${localStorage.getItem('id')}`)
-      this.followinguser = following
+      let user = await axios.get(`/profile/${this.$router.currentRoute.params.id}`)
+      let num = await axios.get(`/following/${user.data.id}`)
+      this.folnum = num.data.length
     }
   },
   created(){
-    this.check()
-    this.following()
     this.get()
+    this.check()
+    this.isfollow()
+    this.following()
 }
 }
 
