@@ -3,7 +3,7 @@
 
      <div id="search-wrapper">
         <el-input type="text" id="searchBar" data-v-c7e7fc80 v-model="search" placeholder="Try search for a beach..."/>
-       <i class="fas fa-search" id="searchIcon"/>
+       <i class="fas fa-search" style="top:53px"/>
 
       </div>
       

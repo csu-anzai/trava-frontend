@@ -311,7 +311,7 @@ h1 {
   height: 110px;
   width: 110px;
   left: 0px;
-  top:216px;
+  top:190px;
   margin-left:10px;
   border:3px solid white
 

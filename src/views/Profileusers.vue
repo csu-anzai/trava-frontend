@@ -53,6 +53,16 @@
               </div>
               <h2 class="card-trip-pricing">{{item.budget}}</h2>
             </div>
+  <fab
+   :position="position"
+   :bg-color="bgColor"
+   :actions="fabActions"
+   @Add="formAccess"
+   @Home="navigateHome"
+   @Profile="profile"
+    v-bind:files="file"
+   :onaddfile="upload" 
+   ></fab>
 
         </div>
       </el-button>
@@ -70,14 +80,32 @@ import { async } from 'q';
 export default {
   name: 'profile',
   components: {
+    fab,
   },
   data(){
     return {
       info : null,
+      login: false,
       file:[],
       followed: null,
       followinguser: null,
       folnum: null,
+      position: 'bottom-right',
+            bgColor: '#369DD7',
+          fabActions: [
+              {
+                name: 'Home',
+                title: 'Home',
+                icon: 'home'
+              },
+               {
+                name: 'Profile',
+                title: 'My Profile',
+                icon: 'account_box'
+              },
+              
+
+          ]
       }
   },
   methods: {
@@ -85,6 +113,14 @@ export default {
       axios.get(`/profile/${this.$router.currentRoute.params.id}`).then(response => {
         this.info = response.data
         })
+    },
+    loginCheck(){
+      if (localStorage.getItem('token')) {
+        this.login = true
+      } else {
+        this.login = false
+        this.$router.push(`/login`)
+      }
     },
     dateFormat (date) {
       return moment(String(date)).format('D MMMM YYYY')
@@ -157,6 +193,7 @@ export default {
     this.check()
     this.isfollow()
     this.following()
+    this.loginCheck()
 }
 }
 
@@ -216,7 +253,7 @@ h1 {
   height: 110px;
   width: 110px;
   left: 0px;
-  top:216px;
+  top:190px;
   margin-left:10px;
   border:3px solid white
 
