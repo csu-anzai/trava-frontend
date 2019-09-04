@@ -6,6 +6,7 @@ import Signup from './components/Signup'
 import Profile from './views/Profile'
 import Login from './components/Login'
 import Profileusers from './views/Profileusers'
+import Collasp from './components/Collasp'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/:user_id/journeys/:id',
       name: 'post',
       component: Posts,
+    },
+    {
+      path: '/:user_id/journeys/:id/collasp',
+      name: 'collasp',
+      component: Collasp,
     },
     {
       path: '/signup',
@@ -49,6 +55,5 @@ export default new Router({
         }
       }
     },
-    
   ]
 })

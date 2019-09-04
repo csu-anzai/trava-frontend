@@ -14,6 +14,7 @@
         <h1>
           {{info.username}}
         </h1>
+       
         <el-button style="display: flex;border-color:#369DD7;color:#369DD7;margin-left:15px" v-show="!this.followed" @click="follow">FOLLOW</el-button>
         <el-button style="display: flex;border-color:red;color:red;margin-left:10px" v-show="(this.followed)" @click="unfollow">UNFOLLOW</el-button>
         <div id="info">
@@ -33,7 +34,7 @@
           </p>
           <div id="bio">
             <el-divider content-position="left">About me</el-divider>
-            {{info.about}}
+            <small style="position : relative; margin : 10px">{{info.about}}</small>
           </div>
         </div>
       </div>
@@ -42,7 +43,7 @@
     <h4>{{info.username}}'s Journeys</h4>
 
     <div style="margin : 5px" :key="index" v-for="(item, index) in info.journeys">
-      <el-button style="border:none;" class="butt" @click="getPosts(item.user_id, item.id)">
+      <div style="border:none;" class="butt" @click="getPosts(item.user_id, item.id)">
         <div class="card-trip">
 
           <img :src="item.cover" />
@@ -54,7 +55,7 @@
               <h2 class="card-trip-pricing">{{item.budget}}</h2>
             </div>
         </div>
-      </el-button>
+      </div>
     </div>
      <fab
    :position="position"
@@ -81,6 +82,7 @@ export default {
   },
   data(){
     return {
+      login : false,
       info : null,
       file:[],
       followed: null,
@@ -129,6 +131,13 @@ export default {
         this.$router.push('/myprofile')
       }
     },
+    loginCheck(){
+      if (localStorage.getItem('token')) {
+        this.login = true
+      } else {
+        this.login = false
+      }
+    },
 
     async editForm() {
        this.$modal.show('edit')
@@ -152,8 +161,13 @@ export default {
       })
     },
     async follow() {
+      if(this.login==false){
+        this.$router.push('/login')
+
+      } else{
       axios.post(`/profile/${this.$router.currentRoute.params.id}`,{'follower_id': localStorage.getItem('id'),'user_id':this.info.id}).then(response => {})
       location.reload()
+      }
     },
     async unfollow() {
       axios.delete(`/profile/${this.$router.currentRoute.params.id}`,{
@@ -191,6 +205,7 @@ export default {
     this.check()
     this.isfollow()
     this.following()
+    this.loginCheck()
 }
 }
 
@@ -270,17 +285,11 @@ img {
 
                         
 }
-
-
-
-
-
-
 .card-trip {
   overflow: hidden;
-  background: white;
+  background: transparent;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
-  max-width: 334px;
+  max-width: 500px;
 }
 
 .card-trip > img {

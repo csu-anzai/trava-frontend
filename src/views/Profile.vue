@@ -9,7 +9,7 @@
         <img id="Cover" :src="info.cover">
         <img id="Avatar" :src="info.avatar">
         </div>
-<el-button @click="editForm" style="border-radius:5px;padding:1px 1px;font-size: 25px;position:absolute;top:100px;right:10px;mid-width:50px;color:black;" primary><i class="far fa-edit"></i></el-button>
+<el-button @click="editForm" style="border:none;padding:1px 1px;font-size: 25px;position:absolute;top:50px;right:10px;mid-width:50px;color:black;" primary><i class="far fa-edit"></i></el-button>
       
       <div id="Profile">
         <h1>
@@ -34,7 +34,7 @@
           </p>
           <div id="bio">
             <el-divider content-position="left">About me</el-divider>
-            {{info.about}}
+            <small style="position : relative; margin : 10px">{{info.about}}</small>
           </div>
         </div>
       
@@ -44,7 +44,7 @@
     <h4>{{info.username}}'s Journeys</h4>
 
     <div style="margin : 5px" :key="index" v-for="(item, index) in info.journeys">
-      <el-button style="border:none;" class="butt" @click="getPosts(item.user_id, item.id)">
+      <div style="border:none;" class="butt" @click="getPosts(item.user_id, item.id)">
         <div class="card-trip">
 
           <img :src="item.cover" />
@@ -57,7 +57,7 @@
             </div>
 
         </div>
-      </el-button>
+      </div>
     </div>
     <modal scrollable name="edit" transition="pop-out" :width="modalWidth" :adaptive=true height="auto">
       <div class="box">
@@ -78,8 +78,9 @@
         allow-multiple="false"
         accepted-file-types="image/jpeg, image/png"
         v-bind:files="file"
-        server="https://50aff656.ap.ngrok.io/upload"
+        server="http://127.0.0.1:3333/upload"
         :onprocessfile="uploadCover"
+        
      />        
      </el-form-item>
        <el-form-item>
@@ -90,13 +91,13 @@
         allow-multiple="false"
         accepted-file-types="image/jpeg, image/png"
         v-bind:files="file"
-        server="https://50aff656.ap.ngrok.io/upload"
-        :onprocessfile="uploadAvatar"
+        server="http://127.0.0.1:3333/upload"
+        :onprocessfile="uploadAvatar"       
      />        
      </el-form-item>
 
      <div class="button-set">
-            <el-button id="buttonSearch" @click="editProfile" class="createButton">Save Changes</el-button>
+            <el-button id="buttonSearch" type="submit" @click="editProfile" class="createButton">Save Changes</el-button>
           </div>
           </el-form>
           
@@ -121,11 +122,9 @@
    :position="position"
    :bg-color="bgColor"
    :actions="fabActions"
-   @Add="formAccess"
    @Home="navigateHome"
    @Profile="profile"
     v-bind:files="file"
-   :onaddfile="upload" 
    ></fab>
  </div>
   
@@ -177,12 +176,7 @@ export default {
                 title: 'My Profile',
                 icon: 'account_box'
               },
-              
-
-          ]
-
-        
-      }
+          ]}
   },
   methods: {
     async get(){
@@ -196,8 +190,14 @@ export default {
         })
 
     },
+
+
+    
     dateFormat (date) {
       return moment(String(date)).format('D MMMM YYYY')
+    },
+     profile(){
+      this.$router.push('/myprofile')
     },
     async getPosts(user_id,id){
       let user = await axios.get(`/profile/find/${user_id}`)
@@ -214,10 +214,16 @@ export default {
         let image = JSON.parse(file.serverId)
         this.info.avatar = image.url
     },
+    // fileUploaded(err) {
+    //   if(!err) {
+    //     this.coverPhotoUploaded = true
+    //   }
+    // },
      uploadCover(err, file) {
         let image = JSON.parse(file.serverId)
         this.info.cover = image.url
     },
+
     async editProfile() {
       axios.put(`/profile/${this.info.id}`, {
         "cover": this.info.cover,
@@ -243,6 +249,24 @@ export default {
         this.$router.push(`/login`)
       }
     },
+    // THIS FUNCTION WILL DISABLE SUBMIT BUTTON UNTIL IMAGE IS UPLOADED
+    // async editProfile() {
+    //   if(!this.coverPhotoUploaded) {
+    //     this.$notify({
+    //       title: `Failed !`,
+    //       message: 'Wait for image to upload!'
+    //       })
+    //     }
+    //    else {
+    //     axios.put(`/profile/${this.info.id}`, {
+    //       "cover": this.info.cover,
+    //       "avatar": this.info.avatar,
+    //       "about": this.info.about
+    //     }).then(response => {
+    //       return this.open()
+    //     })
+    //   }
+    // },
     async following() {
       let following = await axios.get(`/following/${localStorage.getItem('id')}`)
       this.followinguser = following.data.length
@@ -275,8 +299,8 @@ h1 {
 #bio {
   width: 195px;
   height: 136px;
-  left: 159px;
-  top: 300px;
+
+
 
   background: rgba(255, 255, 255, 0.95);
   border: 0.1px solid rgba(0, 0, 0, 0.1);
@@ -314,6 +338,7 @@ h1 {
   top:190px;
   margin-left:10px;
   border:3px solid white
+  
 
 }
 
@@ -339,9 +364,10 @@ img {
 
 .card-trip {
   overflow: hidden;
-  background: white;
+  background: transparent;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
-  max-width: 334px;
+  max-width: 500px;
+  border-radius: 1%;
 }
 
 .card-trip > img {
@@ -359,7 +385,6 @@ img {
 .card-trip p {
   font-size: 12px;
   opacity: .7;
-  margin: 0;
 }
 
 
@@ -529,6 +554,29 @@ $facebook_color: #3880FF;
       border-color: #369DD7;
     }
 }
+button {
+    border-radius: 20px;
+    box-sizing: border-box;
+    padding: 10px;
+    letter-spacing: 1px;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+    min-width: 20px;
+    margin-top: 8px;
+    cursor: pointer;
+    border: 1px solid #369DD7;
+    text-transform: uppercase;
+    transition: 0.1s all;
+    font-size: 10px;
+    outline: none;
+    background-color: transparent;
+    &:hover {
+      color:white;
+      background: #369DD7;
+      border-color: #369DD7;
+    }
+}
+
 #buttonSearch[data-v-ced23842] {
   display: flex;
   margin-left: 25%;

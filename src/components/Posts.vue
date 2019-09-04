@@ -1,5 +1,6 @@
 <template>
 <div class="post-wrapper">
+
   <div class="posts">
     <modal name="form" transition="pop-out" :width="modalWidth" :adaptive=true height="auto">
       <div class="box">
@@ -103,6 +104,7 @@
    :position="position"
    :bg-color="bgColor"
    :actions="fabActionsNotLogged"
+   @Collasp="collasp"
    @Home="navigateHome"
    @Profile="navigateProfile"
     v-bind:files="file"
@@ -114,6 +116,7 @@
    :position="position"
    :bg-color="bgColor"
    :actions="fabActions"
+   @Collasp="collasp"
    @Add="formAccess"
    @Home="navigateHome"
    @Profile="navigateProfile"
@@ -125,22 +128,25 @@
 
     
       
-    <el-button v-if="!owner" id="profbutton" @click="navigateUserProfile"><img id="profimage" :src="ownerinfo.avatar" style="width:50px;border-radius:50px;height:50px"> {{ownerinfo.username}}</el-button>
+
+    <el-button v-if="!owner" id="profbutton" @click="navigateUserProfile"><img id="profimage" :src="ownerinfo.avatar" style="margin-top:8px;width:50px;border-radius:50px;height:50px"><strong style="font-size:13px;"> {{ownerinfo.username}}</strong></el-button>
       
     
 
 <div class="post" :key="index" v-for="(item, index) in postInfo">
-  <b-card style="max-width: 30rem;" class="mb-2" id="card">
-         <img style="top-margin : 20px" :src="item.pictures">
+  <b-card style="max-width: 30rem; border-radius:10px" class="mb-2" id="card">
+         <img :src="item.pictures">
               <div style="size : 200%" class="editpost" v-if="owner">
           <el-button @click="editPost(item)" style=" position:absolute;top:0;right:10px; mid-width:20px"><i class="far fa-edit"></i></el-button>
               </div>
-    <div style="display : flex ; justify-content : space-between ;">
-
-     <b-card-text><br><strong>Budget: <small>{{item.budget}}</small></strong></b-card-text>
+    <div style="display : flex ; justify-content : space-between; padding: 10px ">
+           <b-card-text><strong>{{item.day}}</strong></b-card-text>
+           <br><b-card-text><strong>Budget: <small>{{item.budget}}</small></strong></b-card-text>
+           <div id="date">
      <b-card-text><small>{{dateFormat(item.date)}}</small></b-card-text>
+           </div>
     </div>
-     <b-card-text>{{item.description}}</b-card-text> 
+    <b-card-text style="margin-top:-20px; margin-bottom:10px">{{item.description}}</b-card-text> 
 
   </b-card>
 </div>
@@ -205,6 +211,9 @@ export default {
               {
                name: 'Profile',
                   icon: 'account_box'
+              },{
+               name: 'Collasp',
+                  icon: 'view_module'
               },
           ],
           fabActionsNotLogged: [
@@ -215,6 +224,9 @@ export default {
               {
                name: 'Profile',
                   icon: 'account_box'
+              },{
+               name: 'Collasp',
+                  icon: 'view_module'
               },
           ],
       postInfo: null,
@@ -270,6 +282,9 @@ export default {
     },
      navigateUserProfile(){
       this.$router.push({path:`/profile/${this.$route.params.user_id}`})
+    },
+    collasp(){
+      this.$router.push(`/${this.$route.params.user_id}/journeys/${this.$route.params.id}/collasp`)
     },
     async addPost() {
 
@@ -336,6 +351,17 @@ export default {
   margin-left: 25%;
     margin-right: 25%;
     text-align: center
+}
+#date {
+  display: flex;
+  align-content: flex-end;
+}
+.card-text[data-v-67344653] {
+  padding-top: 0
+}
+.card-body[data-v-67344653] {
+  padding: 0;
+  border-radius: 10px
 }
 
 h3 {
@@ -546,11 +572,11 @@ body {
 }
 
 img {
-  border-radius: 10px;
+  border-radius:10px;
   width: 100%;
   height: 200px;
   object-fit: cover;
-  
+  margin-bottom:7px
 }
 
 
