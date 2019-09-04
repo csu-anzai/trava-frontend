@@ -49,6 +49,7 @@ export default {
     logout(){
       localStorage.removeItem('token');
       localStorage.removeItem('id');
+      localStorage.removeItem('username')
       return location.reload()
     },
     

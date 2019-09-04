@@ -83,6 +83,13 @@ export default {
 
       localStorage.setItem('token', token)
       if (res.statusText == 'OK') {
+        let response = await this.post()
+        this.token = response.data.token.token
+        this.id = response.data.user.id
+
+        localStorage.setItem('token', this.token)
+        localStorage.setItem('id', this.id)
+        localStorage.setItem('username', this.username)
         this.get()
       }
     },
@@ -96,6 +103,10 @@ export default {
 
 
     },
+    post() {
+      return axios.post('/login',{'username':this.username,'password':this.password})
+    },
+
     get() {
       axios.get('http://127.0.0.1:3333/profile/user' ,{ 
         headers: { 

@@ -34,7 +34,7 @@
           </p>
           <div id="bio">
             <el-divider content-position="left">About me</el-divider>
-            {{info.about}}
+            <small style="position : relative; margin : 10px">{{info.about}}</small>
           </div>
         </div>
       
@@ -44,7 +44,7 @@
     <h4>{{info.username}}'s Journeys</h4>
 
     <div style="margin : 5px" :key="index" v-for="(item, index) in info.journeys">
-      <el-button style="border:none;" class="butt" @click="getPosts(item.user_id, item.id)">
+      <div style="border:none;" class="butt" @click="getPosts(item.user_id, item.id)">
         <div class="card-trip">
 
           <img :src="item.cover" />
@@ -57,7 +57,7 @@
             </div>
 
         </div>
-      </el-button>
+      </div>
     </div>
     <modal scrollable name="edit" transition="pop-out" :width="modalWidth" :adaptive=true height="auto">
       <div class="box">
@@ -177,12 +177,7 @@ export default {
                 title: 'My Profile',
                 icon: 'account_box'
               },
-              
-
-          ]
-
-        
-      }
+          ]}
   },
   methods: {
     async get(){
@@ -275,8 +270,8 @@ h1 {
 #bio {
   width: 195px;
   height: 136px;
-  left: 159px;
-  top: 300px;
+
+
 
   background: rgba(255, 255, 255, 0.95);
   border: 0.1px solid rgba(0, 0, 0, 0.1);
@@ -339,9 +334,10 @@ img {
 
 .card-trip {
   overflow: hidden;
-  background: white;
+  background: transparent;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
-  max-width: 334px;
+  max-width: 500px;
+  border-radius: 1%;
 }
 
 .card-trip > img {
@@ -359,7 +355,6 @@ img {
 .card-trip p {
   font-size: 12px;
   opacity: .7;
-  margin: 0;
 }
 
 

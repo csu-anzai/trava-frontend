@@ -33,7 +33,7 @@
           </p>
           <div id="bio">
             <el-divider content-position="left">About me</el-divider>
-            {{info.about}}
+            <small style="position : relative; margin : 10px">{{info.about}}</small>
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@
     <h4>{{info.username}}'s Journeys</h4>
 
     <div style="margin : 5px" :key="index" v-for="(item, index) in info.journeys">
-      <el-button style="border:none;" class="butt" @click="getPosts(item.user_id, item.id)">
+      <div style="border:none;" class="butt" @click="getPosts(item.user_id, item.id)">
         <div class="card-trip">
 
           <img :src="item.cover" />
@@ -54,7 +54,7 @@
               <h2 class="card-trip-pricing">{{item.budget}}</h2>
             </div>
         </div>
-      </el-button>
+      </div>
     </div>
      <fab
    :position="position"
@@ -270,17 +270,11 @@ img {
 
                         
 }
-
-
-
-
-
-
 .card-trip {
   overflow: hidden;
-  background: white;
+  background: transparent;
   box-shadow: 0 0 15px rgba(0,0,0,0.2);
-  max-width: 334px;
+  max-width: 500px;
 }
 
 .card-trip > img {

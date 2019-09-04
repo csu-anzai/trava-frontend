@@ -74,7 +74,7 @@
         
         <div>
           <strong>{{item.title}} {{item.budget}}</strong>
-          <img :src="item.cover">
+          <img style="max-width : 500px" :src="item.cover">
         </div>
         
       </div>
