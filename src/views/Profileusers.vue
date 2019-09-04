@@ -89,8 +89,10 @@ export default {
     dateFormat (date) {
       return moment(String(date)).format('D MMMM YYYY')
     },
-    getPosts(user_id,id){
-      this.$router.push({path:`/${user_id}/journeys/${id}`})
+    async getPosts(user_id,id){
+      let user = await axios.get(`/profile/find/${user_id}`)
+      let username = user.data.username
+      return this.$router.push({path:`/${username}/journeys/${id}`})
     },
     async check(){
     
