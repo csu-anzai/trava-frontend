@@ -78,7 +78,7 @@
         allow-multiple="false"
         accepted-file-types="image/jpeg, image/png"
         v-bind:files="file"
-        server="https://50aff656.ap.ngrok.io/upload"
+        server="http://127.0.0.1:3333/upload"
         :onprocessfile="uploadCover"
      />        
      </el-form-item>
@@ -90,7 +90,7 @@
         allow-multiple="false"
         accepted-file-types="image/jpeg, image/png"
         v-bind:files="file"
-        server="https://50aff656.ap.ngrok.io/upload"
+        server="http://127.0.0.1:3333/upload"
         :onprocessfile="uploadAvatar"
      />        
      </el-form-item>
@@ -314,6 +314,7 @@ h1 {
   top:190px;
   margin-left:10px;
   border:3px solid white
+  
 
 }
 

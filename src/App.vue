@@ -24,11 +24,13 @@
 </template>
 
 <script>
+import { Cropper } from 'vue-advanced-cropper'
 
 
 export default {
   name:'App',
   components:{
+    Cropper,
   },
   data(){
     return {
