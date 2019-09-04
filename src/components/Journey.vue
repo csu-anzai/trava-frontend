@@ -48,16 +48,7 @@
 
   <!-- === Modal Start === -->
 
-    <div v-if="this.login == true">
-      <fab
-      :position="position"
-      :bg-color="bgColor"
-      :actions="fabActions"
-      @Add="formAccess"
-        v-bind:files="file"
-      :onaddfile="upload"
-    ></fab>
-    </div>
+    
   </div> 
   <!-- === Modal Ends === -->
 

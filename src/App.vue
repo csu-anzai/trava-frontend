@@ -11,8 +11,8 @@
         <a href="/"><img src="https://res.cloudinary.com/champmar/image/upload/v1567141363/customLogo_uuyspo.png" style="width : 143px; height : 41px"></a>
 
         <div>
-          <a round v-if="this.login == false" href="/login"><el-button round ><small>Login</small></el-button></a>
-          <a round v-if="this.login == true" href="/" @click="logout" ><el-button round ><small>Logout</small></el-button></a>
+          <a round v-if="this.login == false" href="/login"><el-button style="color:#369DD7" round ><small>Login</small></el-button></a>
+          <a round v-if="this.login == true" href="/" @click="logout" ><el-button style="color:#369DD7" round ><small>Logout</small></el-button></a>
         </div>
 
       </div>

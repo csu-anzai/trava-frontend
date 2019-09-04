@@ -14,7 +14,6 @@
         <h1>
           {{info.username}}
         </h1>
-     
         <el-button style="display: flex;border-color:#369DD7;color:#369DD7;margin-left:15px" v-show="!this.followed" @click="follow">FOLLOW</el-button>
         <el-button style="display: flex;border-color:red;color:red;margin-left:10px" v-show="(this.followed)" @click="unfollow">UNFOLLOW</el-button>
         <div id="info">
@@ -53,20 +52,17 @@
               </div>
               <h2 class="card-trip-pricing">{{item.budget}}</h2>
             </div>
-  <fab
-   :position="position"
-   :bg-color="bgColor"
-   :actions="fabActions"
-   @Add="formAccess"
-   @Home="navigateHome"
-   @Profile="profile"
-    v-bind:files="file"
-   :onaddfile="upload" 
-   ></fab>
-
         </div>
       </el-button>
     </div>
+     <fab
+   :position="position"
+   :bg-color="bgColor"
+   :actions="fabActions"
+   @Home="navigateHome"
+   @Profile="profile"
+    v-bind:files="file"
+   ></fab>
   
   </div>
 </template>
@@ -85,7 +81,6 @@ export default {
   data(){
     return {
       info : null,
-      login: false,
       file:[],
       followed: null,
       followinguser: null,
@@ -108,20 +103,17 @@ export default {
           ]
       }
   },
+  
   methods: {
     async get(){
       axios.get(`/profile/${this.$router.currentRoute.params.id}`).then(response => {
         this.info = response.data
         })
     },
-    loginCheck(){
-      if (localStorage.getItem('token')) {
-        this.login = true
-      } else {
-        this.login = false
-        this.$router.push(`/login`)
-      }
+    navigateHome(){
+      this.$router.push({path:`/`})
     },
+    
     dateFormat (date) {
       return moment(String(date)).format('D MMMM YYYY')
     },
@@ -173,6 +165,9 @@ export default {
       .then(response => {})
       location.reload()
     },
+     profile(){
+      this.$router.push('/myprofile')
+    },
     async isfollow() {
 
       let user = await axios.get(`/profile/${this.$router.currentRoute.params.id}`)
@@ -195,7 +190,6 @@ export default {
     this.check()
     this.isfollow()
     this.following()
-    this.loginCheck()
 }
 }
 
