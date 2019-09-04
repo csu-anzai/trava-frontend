@@ -37,12 +37,12 @@
         allow-multiple="true"
         accepted-file-types="image/jpeg, image/png"
         v-bind:files="file"
-        server="https://63ecca8f.ap.ngrok.io/upload"
+        server="http://127.0.0.1:3333/upload"
         :onprocessfile="uploadAvatar"
      />        
      </el-form-item>
           <el-form-item>
-        <el-button @click="submit" v-on:enter="Submit" href="/login" primary>submit</el-button>
+        <el-button @click="submit" v-on:enter="submit" href="/login" primary>Submit</el-button>
           </el-form-item>
         </el-form>
       </div>
