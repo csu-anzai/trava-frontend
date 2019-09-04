@@ -72,9 +72,11 @@
 
       <div :key="index" v-for="(item, index) in filteredList" class="journeyBox" @click="getPosts(item.user_id, item.id)">
         
-        <span><strong>{{item.title}}</strong></span>
-        <img :src="item.cover">
-
+        <div>
+          <strong>{{item.title}} {{item.budget}}</strong>
+          <img :src="item.cover">
+        </div>
+        
       </div>
   </div>
    
@@ -194,6 +196,7 @@ export default {
       this.$router.push('/')
     },
     async getPosts(user_id,id){
+
       let user = await axios.get(`/profile/find/${user_id}`)
       let username = user.data.username
       return this.$router.push({path:`/${username}/journeys/${id}`})

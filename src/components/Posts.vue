@@ -130,14 +130,18 @@
     
 
 <div class="post" :key="index" v-for="(item, index) in postInfo">
-  <b-card :title="item.day" style="max-width: 30rem;" class="mb-2" id="card">
-         <img :src="item.pictures">
-     <span>{{dateFormat(item.date)}}</span>
-              <div class="editpost" v-if="owner">
+  <b-card style="max-width: 30rem;" class="mb-2" id="card">
+         <img style="top-margin : 20px" :src="item.pictures">
+              <div style="size : 200%" class="editpost" v-if="owner">
           <el-button @click="editPost(item)" style=" position:absolute;top:0;right:10px; mid-width:20px"><i class="far fa-edit"></i></el-button>
               </div>
-     <b-card-text><strong>Budget: </strong>{{item.budget}}</b-card-text>
-     <b-card-text><strong>Description: </strong>{{item.description}}</b-card-text> 
+    <div style="display : flex ; justify-content : space-between ;">
+
+     <b-card-text><br><strong>Budget: <small>{{item.budget}}</small></strong></b-card-text>
+     <b-card-text><small>{{dateFormat(item.date)}}</small></b-card-text>
+    </div>
+     <b-card-text>{{item.description}}</b-card-text> 
+
   </b-card>
 </div>
   </div>

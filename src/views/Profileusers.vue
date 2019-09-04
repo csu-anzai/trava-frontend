@@ -32,6 +32,7 @@
             Journeys
           </p>
           <div id="bio">
+            <el-divider content-position="left">About me</el-divider>
             {{info.about}}
           </div>
         </div>
