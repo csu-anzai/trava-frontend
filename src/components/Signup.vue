@@ -4,8 +4,13 @@
         <br><h1>Sign Up</h1>
         <el-form>
          <p>Email</p>
-          <el-form-item>
-        <el-input style="max-width : 300px" v-model="email" placeholder="Enter your email"/>
+          <el-form-item style="
+    margin-left: 60px;" class="errorMessage" prop="email"
+    :rules="[
+      { required: true, message: 'Please input email address', trigger: 'blur' },
+      { type: 'email', message: 'Please input correct email address', trigger: ['blur', 'change'] }
+    ]">
+        <el-input style="max-width : 300px; margin-right:60px" v-model="email" placeholder="Enter your email"/>
            </el-form-item>
           <p>Username</p>
           <el-form-item>
@@ -68,6 +73,7 @@ export default {
   data() {
     return {
       file:[],
+      errors:[],
       username : null,
       email : null,
       password : null,
@@ -95,13 +101,20 @@ export default {
     },
 
     async byPass() {
+      this.errors = []
+      if(!this.validEmail(this.email)){
+         return alert('Valid Email Needed');
+      } else {
       return await axios.post('/register',{'username' : this.username,
       'email' : this.email,
       'password':this.password,
       'cover':this.cover,
       'avatar':this.avatar}).catch((err) => alert('== Fail to register, Check your Input =='))
-
-
+      }
+    },
+    validEmail(email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
     },
     post() {
       return axios.post('/login',{'username':this.username,'password':this.password})
@@ -133,6 +146,10 @@ export default {
  
   width:50%;
   margin-left: 25%
+}
+#errorMessage /deep/ {
+  left:60px;
+  margin-left: 50%
 }
 
 </style>
