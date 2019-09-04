@@ -28,7 +28,7 @@
             allow-multiple="true"
             accepted-file-types="image/jpeg, image/png"
             v-bind:files="file"
-            server="https://50aff656.ap.ngrok.io/upload"
+            server="http://127.0.0.1:3333/upload"
             :onprocessfile="upload"
         />
     

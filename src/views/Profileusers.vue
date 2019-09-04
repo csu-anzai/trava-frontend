@@ -14,6 +14,7 @@
         <h1>
           {{info.username}}
         </h1>
+       
         <el-button style="display: flex;border-color:#369DD7;color:#369DD7;margin-left:15px" v-show="!this.followed" @click="follow">FOLLOW</el-button>
         <el-button style="display: flex;border-color:red;color:red;margin-left:10px" v-show="(this.followed)" @click="unfollow">UNFOLLOW</el-button>
         <div id="info">
@@ -81,6 +82,7 @@ export default {
   },
   data(){
     return {
+      login : false,
       info : null,
       file:[],
       followed: null,
@@ -129,6 +131,13 @@ export default {
         this.$router.push('/myprofile')
       }
     },
+    loginCheck(){
+      if (localStorage.getItem('token')) {
+        this.login = true
+      } else {
+        this.login = false
+      }
+    },
 
     async editForm() {
        this.$modal.show('edit')
@@ -152,8 +161,13 @@ export default {
       })
     },
     async follow() {
+      if(this.login==false){
+        this.$router.push('/login')
+
+      } else{
       axios.post(`/profile/${this.$router.currentRoute.params.id}`,{'follower_id': localStorage.getItem('id'),'user_id':this.info.id}).then(response => {})
       location.reload()
+      }
     },
     async unfollow() {
       axios.delete(`/profile/${this.$router.currentRoute.params.id}`,{
@@ -191,6 +205,7 @@ export default {
     this.check()
     this.isfollow()
     this.following()
+    this.loginCheck()
 }
 }
 
