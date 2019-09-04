@@ -3,11 +3,18 @@
     
     <div id="nav" class="theme">
 
-      <a v-if="this.login == false" href="/login">Login</a>
-      <a v-if="this.login == true" @click="logout" href="/">Logout</a>
+      <div id="flexhead">
 
-      <div>
+        <div style="width : 95px">
+        </div>
+
         <a href="/"><img src="https://res.cloudinary.com/champmar/image/upload/v1567141363/customLogo_uuyspo.png" style="width : 143px; height : 41px"></a>
+
+        <div>
+          <a round v-if="this.login == false" href="/login"><el-button round ><small>Login</small></el-button></a>
+          <a round v-if="this.login == true" href="/" @click="logout" ><el-button round ><small>Logout</small></el-button></a>
+        </div>
+
       </div>
     </div>
 
@@ -17,6 +24,7 @@
 </template>
 
 <script>
+
 
 export default {
   name:'App',
@@ -41,7 +49,11 @@ export default {
     logout(){
       localStorage.removeItem('token');
       localStorage.removeItem('id');
+      return location.reload()
     },
+    login(){
+      return this.$router.push(`/login`)
+    }
     
   },
   created(){
@@ -90,4 +102,8 @@ export default {
   width: 50%;
 }
 
+#flexhead {
+  display : flex;
+  justify-content: space-between
+}
 </style>

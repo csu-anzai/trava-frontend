@@ -22,7 +22,6 @@
                 <el-form-item>
                 <el-input v-model="journeyForm.budget" placeholder="Budget"></el-input>
                 </el-form-item>
-        <!-- <input type="file" class="form-control" v-on:change="upload($event.target.files)" accept="image/*" /> -->
         <file-pond
             name="image"
             label-idle="Drop files here..."
@@ -75,8 +74,7 @@
       @Add="formAccess"
       @Home="profile"
       @Profile="profile"
-
-        v-bind:files="file"
+      v-bind:files="file"
       :onaddfile="upload" 
     ></fab>
     </div>

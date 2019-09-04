@@ -23,8 +23,8 @@
           </p><br>
 
           <p>
-            <span v-if="followinguser.length == null">0</span>
-            {{followinguser.length}}<br>
+            <span v-if="followinguser == null">0</span>
+            {{followinguser}}<br>
             Followings
           </p><br>
 
@@ -32,8 +32,8 @@
             {{info.journeys.length}}<br>
             Journeys
           </p>
-
           <div id="bio">
+            <el-divider content-position="left">About me</el-divider>
             {{info.about}}
           </div>
         </div>
@@ -224,9 +224,17 @@ export default {
         "avatar": this.info.avatar,
         "about": this.info.about
       }).then(response => {
-        return alert('Changes Saved'), location.reload()
+        return this.open()
       })
     },
+    open() {
+        const h = this.$createElement;
+
+        this.$notify({
+          title: `Updated !`,
+          message: h('i', { style: 'color: teal' }, 'Your changes is saved')})
+      },
+
     loginCheck(){
       if (localStorage.getItem('token')) {
         this.login = true
@@ -236,9 +244,9 @@ export default {
       }
     },
     async following() {
-      let following = await axios.get(`/followers/${localStorage.getItem('id')}`)
-      this.followinguser.push(following.data.user_id)
-
+      let following = await axios.get(`/following/${localStorage.getItem('id')}`)
+      this.followinguser = following.data.length
+      //Master
     }
   },
   created(){

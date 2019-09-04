@@ -310,17 +310,6 @@ export default {
       })
 
     },
-
-
-
-
-      //       postForm: {
-      //   journey_id: this.$route.params.id,
-      //   date: '',
-      //   budget: '',
-      //   day: '',
-      //   pictures:'',
-      //   modalWidth: MODAL_WIDTH,
     formAccess(){
       this.$modal.show('form'); 
     },
