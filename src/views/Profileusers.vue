@@ -14,10 +14,9 @@
         <h1>
           {{info.username}}
         </h1>
-
-        <el-button v-show="!this.followed" @click="follow">FOLLOW</el-button>
-        <el-button v-show="(this.followed)" @click="unfollow">UNFOLLOW</el-button>
-        
+     
+        <el-button style="display: flex; margin-left:15px" v-show="!this.followed" @click="follow">FOLLOW</el-button>
+        <el-button style="display: flex; margin-left:15px" v-show="(this.followed)" @click="unfollow">UNFOLLOW</el-button>
         <div id="info">
           <p>
             {{info.followers.length}}<br>
@@ -33,12 +32,10 @@
             {{info.journeys.length}}<br>
             Journeys
           </p>
-
           <div id="bio">
             {{info.about}}
           </div>
         </div>
-      
       </div>
     </div>
     <br>
@@ -183,7 +180,9 @@ h1 {
   height: 136px;
   left: 159px;
   top: 300px;
-
+  margin-bottom: 75px;
+  margin-top: -40px;
+  margin-left: 20px;
   background: rgba(255, 255, 255, 0.95);
   border: 0.1px solid rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
@@ -238,6 +237,11 @@ img {
                         
 }
 
+
+
+
+
+
 .card-trip {
   overflow: hidden;
   background: white;
@@ -282,7 +286,6 @@ img {
 $background_color: #404142;
 $github_color: #DBA226;
 $facebook_color: #3880FF;
-
 .box {
   background: white;
   overflow: hidden;
@@ -426,6 +429,7 @@ $facebook_color: #3880FF;
       border-color: #369DD7;
     }
 }
+
 
 
 </style>
