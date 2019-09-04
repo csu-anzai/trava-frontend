@@ -15,8 +15,8 @@
           {{info.username}}
         </h1>
      
-        <el-button style="display: flex; margin-left:15px" v-show="!this.followed" @click="follow">FOLLOW</el-button>
-        <el-button style="display: flex; margin-left:15px" v-show="(this.followed)" @click="unfollow">UNFOLLOW</el-button>
+        <el-button style="display: flex;border-color:#369DD7;color:#369DD7;margin-left:15px" v-show="!this.followed" @click="follow">FOLLOW</el-button>
+        <el-button style="display: flex;border-color:red;color:red;margin-left:10px" v-show="(this.followed)" @click="unfollow">UNFOLLOW</el-button>
         <div id="info">
           <p>
             {{info.followers.length}}<br>
@@ -289,7 +289,8 @@ $facebook_color: #3880FF;
 .box {
   background: white;
   overflow: hidden;
-  width: 656px;
+  width: 100%;
+  height: 100%;
   border-radius: 2px;
   box-sizing: border-box;
   box-shadow: 0 0 40px black;
@@ -300,7 +301,7 @@ $facebook_color: #3880FF;
     position: relative;
     vertical-align: top;
     box-sizing: border-box;
-    width: 50%;
+    width: 100%;
     &#bp-right {
       background: url("/static/panorama.jpg") no-repeat top left;
       border-left: 1px solid #eee;

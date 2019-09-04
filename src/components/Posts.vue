@@ -30,7 +30,7 @@
         :onprocessfile="upload"
      />        
      <div class="button-set">
-            <el-button @click="addPost" class="createButton">Add Post</el-button>
+            <el-button @click="addPost" id="buttonSearch" class="createButton">Add Post</el-button>
           </div>
           </el-form>
           
@@ -79,7 +79,7 @@
         :onprocessfile="upload"
      />        
      <div class="button-set">
-            <el-button @click="saveChanges(postForm.id)" class="createButton">Save</el-button>
+            <el-button @click="saveChanges(postForm.id)" id="buttonSearch" class="createButton">Save</el-button>
           </div>
           </el-form>
           
@@ -338,6 +338,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+#buttonSearch[data-v-67344653] {
+  display: flex;
+  margin-left: 25%;
+    margin-right: 25%;
+    text-align: center
+}
 
 h3 {
   margin: 40px 0 0;
@@ -372,7 +378,28 @@ a {
 }
 .createButton {
   width:50%;
-
+  display: flex;
+  justify-content: center;
+    border-radius: 20px;
+    box-sizing: border-box;
+    padding: 10px;
+    letter-spacing: 1px;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+    min-width: 20px;
+    margin-top: 8px;
+    color: #369DD7;
+    cursor: pointer;
+    border: 1px solid #369DD7;
+    text-transform: uppercase;
+    transition: 0.1s all;
+    font-size: 10px;
+    outline: none;
+    &:hover {
+      color:white;
+      background: #369DD7;
+      border-color: #369DD7;
+    }
 }
 button {
     border-radius: 20px;
@@ -402,7 +429,8 @@ $facebook_color: #3880FF;
 .box {
   background: white;
   overflow: hidden;
-  width: 656px;
+  width: 100%;
+  height: 100%;
   border-radius: 2px;
   box-sizing: border-box;
   box-shadow: 0 0 40px black;
@@ -413,7 +441,7 @@ $facebook_color: #3880FF;
     position: relative;
     vertical-align: top;
     box-sizing: border-box;
-    width: 50%;
+    width: 100%;
     &#bp-right {
       background: url("/static/panorama.jpg") no-repeat top left;
       border-left: 1px solid #eee;
