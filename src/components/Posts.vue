@@ -213,7 +213,7 @@ export default {
                   icon: 'account_box'
               },{
                name: 'Collasp',
-                  icon: 'view_module'
+               icon: 'view_module'
               },
           ],
           fabActionsNotLogged: [
