@@ -5,7 +5,7 @@
          <img class="posst" :src="item.pictures">
         </div>
     </div>
-
+    <!-- safsjhfjfkjasd -->
     <fab
    :position="position"
    :bg-color="bgColor"
