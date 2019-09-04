@@ -15,8 +15,8 @@
           {{info.username}}
         </h1>
      
-        <el-button style="display: flex; margin-left:15px" v-show="!this.followed" @click="follow">FOLLOW</el-button>
-        <el-button style="display: flex; margin-left:15px" v-show="(this.followed)" @click="unfollow">UNFOLLOW</el-button>
+        <el-button style="display: flex;border-color:#369DD7;color:#369DD7;margin-left:15px" v-show="!this.followed" @click="follow">FOLLOW</el-button>
+        <el-button style="display: flex;border-color:red;color:red;margin-left:10px" v-show="(this.followed)" @click="unfollow">UNFOLLOW</el-button>
         <div id="info">
           <p>
             {{info.followers.length}}<br>
@@ -53,6 +53,16 @@
               </div>
               <h2 class="card-trip-pricing">{{item.budget}}</h2>
             </div>
+  <fab
+   :position="position"
+   :bg-color="bgColor"
+   :actions="fabActions"
+   @Add="formAccess"
+   @Home="navigateHome"
+   @Profile="profile"
+    v-bind:files="file"
+   :onaddfile="upload" 
+   ></fab>
 
         </div>
       </el-button>
@@ -70,14 +80,32 @@ import { async } from 'q';
 export default {
   name: 'profile',
   components: {
+    fab,
   },
   data(){
     return {
       info : null,
+      login: false,
       file:[],
       followed: null,
       followinguser: null,
       folnum: null,
+      position: 'bottom-right',
+            bgColor: '#369DD7',
+          fabActions: [
+              {
+                name: 'Home',
+                title: 'Home',
+                icon: 'home'
+              },
+               {
+                name: 'Profile',
+                title: 'My Profile',
+                icon: 'account_box'
+              },
+              
+
+          ]
       }
   },
   methods: {
@@ -85,6 +113,14 @@ export default {
       axios.get(`/profile/${this.$router.currentRoute.params.id}`).then(response => {
         this.info = response.data
         })
+    },
+    loginCheck(){
+      if (localStorage.getItem('token')) {
+        this.login = true
+      } else {
+        this.login = false
+        this.$router.push(`/login`)
+      }
     },
     dateFormat (date) {
       return moment(String(date)).format('D MMMM YYYY')
@@ -159,6 +195,7 @@ export default {
     this.check()
     this.isfollow()
     this.following()
+    this.loginCheck()
 }
 }
 
@@ -218,7 +255,7 @@ h1 {
   height: 110px;
   width: 110px;
   left: 0px;
-  top:216px;
+  top:190px;
   margin-left:10px;
   border:3px solid white
 
@@ -291,7 +328,8 @@ $facebook_color: #3880FF;
 .box {
   background: white;
   overflow: hidden;
-  width: 656px;
+  width: 100%;
+  height: 100%;
   border-radius: 2px;
   box-sizing: border-box;
   box-shadow: 0 0 40px black;
@@ -302,7 +340,7 @@ $facebook_color: #3880FF;
     position: relative;
     vertical-align: top;
     box-sizing: border-box;
-    width: 50%;
+    width: 100%;
     &#bp-right {
       background: url("/static/panorama.jpg") no-repeat top left;
       border-left: 1px solid #eee;

@@ -1,8 +1,10 @@
 <template>
   <div class="journey-wrapper">
 
-     <div class="search-wrapper">
-        <el-input type="text" v-model="search" placeholder="Try search for a beach..."/>
+     <div id="search-wrapper">
+        <el-input type="text" id="searchBar" data-v-c7e7fc80 v-model="search" placeholder="Try search for a beach..."/>
+       <i class="fas fa-search" style="top:53px"/>
+
       </div>
       
     <div class="addJourney"></div>
@@ -70,6 +72,7 @@
       :bg-color="bgColor"
       :actions="fabActions"
       @Add="formAccess"
+      @Home="profile"
       @Profile="profile"
       v-bind:files="file"
       :onaddfile="upload" 
@@ -137,7 +140,12 @@ export default {
                   icon: 'add'
               },
               {
+                name: 'Home',
+                icon: 'home'
+              },
+              {
                 name: 'Profile',
+                title: 'My Profile',
                 icon: 'account_box'
               },
               
@@ -257,6 +265,19 @@ strong {
     text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;
     font-family: Futura
 }
+#search-wrapper >>> {
+    text-align: center;
+    width: 100%;
+    border-radius: 50px;
+}
+#searchBar[data-v-c7e7fc80] {
+ border-radius: 50px;
+ margin-top: 3px;
+ margin-bottom: -5px;
+ width: 97.5%;
+     text-align: center;
+}
+
 h3 {
   margin: 40px 0 0;
 }
@@ -281,14 +302,14 @@ input {
   height: auto;
 }
 
-
 $background_color: #404142;
 $github_color: #DBA226;
 $facebook_color: #3880FF;
 .box {
   background: white;
   overflow: hidden;
-  width: 656px;
+  width: 100%;
+  height: 100%;
   border-radius: 2px;
   box-sizing: border-box;
   box-shadow: 0 0 40px black;
@@ -299,7 +320,7 @@ $facebook_color: #3880FF;
     position: relative;
     vertical-align: top;
     box-sizing: border-box;
-    width: 50%;
+    width: 100%;
     &#bp-right {
       background: url("/static/panorama.jpg") no-repeat top left;
       border-left: 1px solid #eee;
@@ -436,10 +457,10 @@ $facebook_color: #3880FF;
 }
 img {
   border-radius: 10px;
-  width: 100%;
+  width: 95%;
   height: 200px;
   object-fit: cover;
-  
+  margin-bottom:7px
 }
 
 .journeyBox {
@@ -456,6 +477,14 @@ img {
 }
 .empty {
   margin-bottom: 70px
+}
+i{
+  position: absolute;
+  left: 15px;
+  margin-top:10px;
+  font-size: 25px;
+  top:75px;
+  color:grey
 }
 
 

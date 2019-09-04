@@ -66,13 +66,15 @@
         <div class="partition-title">Edit post</div>
         <div class="partition-form">
           <el-form>
-            <el-form-item label="About">
+            <el-form-item>
+              <h6>About</h6>
               <el-input v-model="info.about" placeholder="About yourself"></el-input>
             </el-form-item>
-            <el-form-item label="Cover image">
+            <el-form-item>
+              <h6>Cover</h6>
  <file-pond
         name="image"
-        label-idle="Select/drop files here..."
+        label-idle="Select/drop Image here..."
         allow-multiple="false"
         accepted-file-types="image/jpeg, image/png"
         v-bind:files="file"
@@ -80,10 +82,11 @@
         :onprocessfile="uploadCover"
      />        
      </el-form-item>
-       <el-form-item label="Avatar">
+       <el-form-item>
+                       <h6>Avatar</h6>
  <file-pond
         name="image"
-        label-idle="Select/drop files here..."
+        label-idle="Select/drop Image here..."
         allow-multiple="false"
         accepted-file-types="image/jpeg, image/png"
         v-bind:files="file"
@@ -93,7 +96,7 @@
      </el-form-item>
 
      <div class="button-set">
-            <el-button @click="editProfile" class="createButton">Save Changes</el-button>
+            <el-button id="buttonSearch" @click="editProfile" class="createButton">Save Changes</el-button>
           </div>
           </el-form>
           
@@ -120,6 +123,7 @@
    :actions="fabActions"
    @Add="formAccess"
    @Home="navigateHome"
+   @Profile="profile"
     v-bind:files="file"
    :onaddfile="upload" 
    ></fab>
@@ -164,12 +168,14 @@ export default {
             bgColor: '#369DD7',
           fabActions: [
               {
-                  name: 'Add',
-                  icon: 'add'
-              },
-              {
                 name: 'Home',
+                title: 'Home',
                 icon: 'home'
+              },
+               {
+                name: 'Profile',
+                title: 'My Profile',
+                icon: 'account_box'
               },
               
 
@@ -305,7 +311,7 @@ h1 {
   height: 110px;
   width: 110px;
   left: 0px;
-  top:216px;
+  top:190px;
   margin-left:10px;
   border:3px solid white
 
@@ -378,7 +384,8 @@ $facebook_color: #3880FF;
 .box {
   background: white;
   overflow: hidden;
-  width: 656px;
+  width: 100%;
+  height: 100%;
   border-radius: 2px;
   box-sizing: border-box;
   box-shadow: 0 0 40px black;
@@ -389,7 +396,7 @@ $facebook_color: #3880FF;
     position: relative;
     vertical-align: top;
     box-sizing: border-box;
-    width: 50%;
+    width: 100%;
     &#bp-right {
       background: url("/static/panorama.jpg") no-repeat top left;
       border-left: 1px solid #eee;
@@ -457,6 +464,8 @@ $facebook_color: #3880FF;
   }
   .button-set {
     margin-bottom: 8px;
+    display:flex;
+    align-items: center;
   }
   
   .facebook-btn {
@@ -497,6 +506,8 @@ $facebook_color: #3880FF;
 }
 .createButton {
   width:50%;
+  display: flex;
+  justify-content: center;
     border-radius: 20px;
     box-sizing: border-box;
     padding: 10px;
@@ -518,6 +529,10 @@ $facebook_color: #3880FF;
       border-color: #369DD7;
     }
 }
-
+#buttonSearch[data-v-ced23842] {
+  display: flex;
+  margin-left: 25%;
+    margin-right: 25%;
+}
 
 </style>
